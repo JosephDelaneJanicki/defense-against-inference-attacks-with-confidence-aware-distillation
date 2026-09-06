@@ -1,0 +1,36 @@
+# Virtual environments
+venv/
+.venv/
+env/
+mialab/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Raw/generated datasets
+data/
+
+# Generated experimental results
+results/
+
+# ML artifacts
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Secrets
+.env
+*.key
+*.pem
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+docs.zip

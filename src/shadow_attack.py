@@ -1,0 +1,378 @@
+import os
+import numpy as np
+import pandas as pd
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+from ucimlrepo import fetch_ucirepo
+from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+from torch.utils.data import TensorDataset, DataLoader
+
+
+# ================================
+# Config
+# ================================
+RESULTS_DIR = "results"
+os.makedirs(RESULTS_DIR, exist_ok=True)
+
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print("Using device:", DEVICE)
+
+NUM_SHADOW_MODELS = 5
+SHADOW_EPOCHS = 8
+ATTACK_EPOCHS = 30
+BATCH_SIZE = 256
+SEED = 42
+
+torch.manual_seed(SEED)
+np.random.seed(SEED)
+
+
+# ================================
+# Load + Preprocess Adult Dataset
+# ================================
+adult = fetch_ucirepo(id=2)
+X = adult.data.features.copy()
+y = adult.data.targets.copy()
+
+if isinstance(y, pd.DataFrame):
+    y = y.iloc[:, 0]
+
+y = y.astype(str).str.strip().str.replace(".", "", regex=False)
+y = (y == ">50K").astype(int)
+
+categorical_cols = X.select_dtypes(include=["object", "category", "string"]).columns.tolist()
+numeric_cols = X.select_dtypes(exclude=["object", "category", "string"]).columns.tolist()
+
+numeric_transformer = Pipeline([
+    ("imputer", SimpleImputer(strategy="median")),
+    ("scaler", StandardScaler()),
+])
+
+categorical_transformer = Pipeline([
+    ("imputer", SimpleImputer(strategy="most_frequent")),
+    ("onehot", OneHotEncoder(handle_unknown="ignore")),
+])
+
+preprocessor = ColumnTransformer([
+    ("num", numeric_transformer, numeric_cols),
+    ("cat", categorical_transformer, categorical_cols),
+])
+
+X_processed = preprocessor.fit_transform(X)
+X_processed = X_processed.toarray() if hasattr(X_processed, "toarray") else X_processed
+
+X_tensor = torch.tensor(X_processed, dtype=torch.float32)
+y_tensor = torch.tensor(y.to_numpy(), dtype=torch.long)
+
+input_dim = X_tensor.shape[1]
+print("Input dim:", input_dim)
+print("Dataset size:", len(X_tensor))
+
+
+# ================================
+# Models
+# ================================
+class ShadowMLP(nn.Module):
+    def __init__(self, input_dim):
+        super().__init__()
+
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.ReLU(),
+
+            nn.Linear(256, 128),
+            nn.ReLU(),
+
+            nn.Linear(128, 64),
+            nn.ReLU(),
+
+            nn.Linear(64, 2),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+
+class AttackModel(nn.Module):
+    def __init__(self, prob_dim):
+        super().__init__()
+
+        self.net = nn.Sequential(
+            nn.Linear(prob_dim, 32),
+            nn.ReLU(),
+            nn.Linear(32, 16),
+            nn.ReLU(),
+            nn.Linear(16, 2),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+
+# ================================
+# Helper Functions
+# ================================
+def train_shadow_model(model, train_loader, epochs):
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+    model.train()
+
+    for _ in range(epochs):
+        for xb, yb in train_loader:
+            xb = xb.to(DEVICE)
+            yb = yb.to(DEVICE)
+
+            optimizer.zero_grad()
+            logits = model(xb)
+            loss = criterion(logits, yb)
+            loss.backward()
+            optimizer.step()
+
+    return model
+
+
+def get_probabilities(model, X_data):
+    model.eval()
+
+    loader = DataLoader(
+        TensorDataset(X_data),
+        batch_size=BATCH_SIZE,
+        shuffle=False,
+    )
+
+    all_probs = []
+
+    with torch.no_grad():
+        for (xb,) in loader:
+            xb = xb.to(DEVICE)
+            logits = model(xb)
+            probs = torch.softmax(logits, dim=1)
+            all_probs.append(probs.cpu().numpy())
+
+    return np.vstack(all_probs)
+
+
+def balance_attack_data(member_probs, nonmember_probs):
+    n = min(len(member_probs), len(nonmember_probs))
+
+    rng = np.random.default_rng(SEED)
+    member_idx = rng.choice(len(member_probs), size=n, replace=False)
+    nonmember_idx = rng.choice(len(nonmember_probs), size=n, replace=False)
+
+    member_probs = member_probs[member_idx]
+    nonmember_probs = nonmember_probs[nonmember_idx]
+
+    X_attack = np.vstack([member_probs, nonmember_probs])
+    y_attack = np.concatenate([
+        np.ones(len(member_probs)),
+        np.zeros(len(nonmember_probs)),
+    ])
+
+    return X_attack, y_attack
+
+
+def train_attack_model(X_attack, y_attack):
+    X_train, X_val, y_train, y_val = train_test_split(
+        X_attack,
+        y_attack,
+        test_size=0.2,
+        random_state=SEED,
+        stratify=y_attack,
+    )
+
+    X_train = torch.tensor(X_train, dtype=torch.float32)
+    y_train = torch.tensor(y_train, dtype=torch.long)
+
+    X_val = torch.tensor(X_val, dtype=torch.float32)
+    y_val = torch.tensor(y_val, dtype=torch.long)
+
+    train_loader = DataLoader(
+        TensorDataset(X_train, y_train),
+        batch_size=BATCH_SIZE,
+        shuffle=True,
+    )
+
+    attack_model = AttackModel(prob_dim=X_attack.shape[1]).to(DEVICE)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(attack_model.parameters(), lr=0.001)
+
+    for epoch in range(ATTACK_EPOCHS):
+        attack_model.train()
+
+        for xb, yb in train_loader:
+            xb = xb.to(DEVICE)
+            yb = yb.to(DEVICE)
+
+            optimizer.zero_grad()
+            logits = attack_model(xb)
+            loss = criterion(logits, yb)
+            loss.backward()
+            optimizer.step()
+
+        if (epoch + 1) % 10 == 0 or epoch == 0:
+            attack_model.eval()
+            with torch.no_grad():
+                val_logits = attack_model(X_val.to(DEVICE))
+                val_probs = torch.softmax(val_logits, dim=1)[:, 1].cpu().numpy()
+                val_preds = (val_probs >= 0.5).astype(int)
+
+            val_acc = accuracy_score(y_val.numpy(), val_preds)
+            val_auc = roc_auc_score(y_val.numpy(), val_probs)
+
+            print(
+                f"Attack epoch {epoch + 1:03d}/{ATTACK_EPOCHS} | "
+                f"Val Acc: {val_acc:.4f} | Val AUC: {val_auc:.4f}"
+            )
+
+    return attack_model
+
+
+def evaluate_attack_model(attack_model, member_probs, nonmember_probs, model_name):
+    X_eval, y_eval = balance_attack_data(member_probs, nonmember_probs)
+
+    X_eval_tensor = torch.tensor(X_eval, dtype=torch.float32).to(DEVICE)
+
+    attack_model.eval()
+    with torch.no_grad():
+        logits = attack_model(X_eval_tensor)
+        probs = torch.softmax(logits, dim=1)[:, 1].cpu().numpy()
+
+    preds = (probs >= 0.5).astype(int)
+
+    acc = accuracy_score(y_eval, preds)
+    precision = precision_score(y_eval, preds, zero_division=0)
+    recall = recall_score(y_eval, preds, zero_division=0)
+    f1 = f1_score(y_eval, preds, zero_division=0)
+    auc = roc_auc_score(y_eval, probs)
+
+    print("\n" + "=" * 60)
+    print(f"Shadow Attack on {model_name}")
+    print("=" * 60)
+    print(f"Attack Accuracy:  {acc:.4f}")
+    print(f"Attack Precision: {precision:.4f}")
+    print(f"Attack Recall:    {recall:.4f}")
+    print(f"Attack F1:        {f1:.4f}")
+    print(f"Attack ROC AUC:   {auc:.4f}")
+
+    return {
+        "model": model_name,
+        "accuracy": acc,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+        "auc": auc,
+    }
+
+
+# ================================
+# 1. Train Shadow Models + Build Attack Dataset
+# ================================
+shadow_member_probs = []
+shadow_nonmember_probs = []
+
+indices = np.arange(len(X_tensor))
+
+print("\nTraining shadow models...")
+
+for i in range(NUM_SHADOW_MODELS):
+    print(f"\nShadow model {i + 1}/{NUM_SHADOW_MODELS}")
+
+    shadow_train_idx, shadow_test_idx = train_test_split(
+        indices,
+        test_size=0.5,
+        random_state=SEED + i,
+        stratify=y,
+    )
+
+    X_shadow_train = X_tensor[shadow_train_idx]
+    y_shadow_train = y_tensor[shadow_train_idx]
+
+    X_shadow_test = X_tensor[shadow_test_idx]
+
+    shadow_loader = DataLoader(
+        TensorDataset(X_shadow_train, y_shadow_train),
+        batch_size=BATCH_SIZE,
+        shuffle=True,
+    )
+
+    shadow_model = ShadowMLP(input_dim).to(DEVICE)
+    shadow_model = train_shadow_model(shadow_model, shadow_loader, SHADOW_EPOCHS)
+
+    member_probs = get_probabilities(shadow_model, X_shadow_train)
+    nonmember_probs = get_probabilities(shadow_model, X_shadow_test)
+
+    shadow_member_probs.append(member_probs)
+    shadow_nonmember_probs.append(nonmember_probs)
+
+shadow_member_probs = np.vstack(shadow_member_probs)
+shadow_nonmember_probs = np.vstack(shadow_nonmember_probs)
+
+X_attack, y_attack = balance_attack_data(shadow_member_probs, shadow_nonmember_probs)
+
+print("\nShadow attack dataset:")
+print("X_attack:", X_attack.shape)
+print("y_attack:", y_attack.shape)
+print("Member ratio:", y_attack.mean())
+
+
+# ================================
+# 2. Train Attack Model
+# ================================
+print("\nTraining attack model...")
+attack_model = train_attack_model(X_attack, y_attack)
+
+torch.save(attack_model.state_dict(), os.path.join(RESULTS_DIR, "shadow_attack_model.pt"))
+
+
+# ================================
+# 3. Attack Target Model A Variants
+# ================================
+TARGETS = {
+    "Overfit v2": {
+        "member": "model_a_train_probs.npy",
+        "nonmember": "model_a_test_probs.npy",
+    },
+    "Realistic": {
+        "member": "model_a_realistic_train_probs.npy",
+        "nonmember": "model_a_realistic_test_probs.npy",
+    },
+    "Early Stop 5ep": {
+        "member": "model_a_early_stop_5ep_train_probs.npy",
+        "nonmember": "model_a_early_stop_5ep_test_probs.npy",
+    },
+}
+
+results = []
+
+for model_name, files in TARGETS.items():
+    member_probs = np.load(os.path.join(RESULTS_DIR, files["member"]))
+    nonmember_probs = np.load(os.path.join(RESULTS_DIR, files["nonmember"]))
+
+    result = evaluate_attack_model(
+        attack_model,
+        member_probs,
+        nonmember_probs,
+        model_name,
+    )
+
+    results.append(result)
+
+
+# ================================
+# 4. Save Results
+# ================================
+summary_path = os.path.join(RESULTS_DIR, "shadow_attack_summary.csv")
+
+df = pd.DataFrame(results)
+df.to_csv(summary_path, index=False)
+
+print("\nSaved shadow attack summary:")
+print(summary_path)
