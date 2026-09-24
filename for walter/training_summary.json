@@ -1,0 +1,42 @@
+{
+  "experiment": "gemma_3_4b_realistic_lora_multiseed",
+  "seed": 123,
+  "base_model": "google/gemma-3-4b-pt",
+  "precision": "bfloat16",
+  "quantization": null,
+  "membership_definition": "Fine-tuning membership in members.jsonl",
+  "train_examples": 5000,
+  "validation_examples": 1000,
+  "max_length": 256,
+  "lora": {
+    "r": 8,
+    "alpha": 16,
+    "dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ]
+  },
+  "training": {
+    "epochs": 2,
+    "learning_rate": 0.0002,
+    "batch_size": 1,
+    "gradient_accumulation": 8,
+    "effective_batch_size": 8,
+    "optimizer": "adamw_torch",
+    "seed": 123,
+    "data_seed": 123
+  },
+  "initial_eval_loss": 2.5813257694244385,
+  "final_eval_loss": 2.2452542781829834,
+  "train_loss": 2.2031753295898437,
+  "training_seconds": 2075.8692152500153,
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "gpu_memory": {
+    "allocated_gb": 8.09146499633789,
+    "reserved_gb": 9.10546875,
+    "peak_allocated_gb": 8.904595375061035
+  }
+}
