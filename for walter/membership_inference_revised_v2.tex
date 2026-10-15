@@ -1,0 +1,242 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\title{Membership Inference Resistance via Confidence-Aware Distillation}
+
+\author{
+\IEEEauthorblockN{Joseph D. Janicki}
+\IEEEauthorblockA{
+University of Mississippi \\
+joseph.d.janicki@gmail.com
+}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Membership inference attacks (MIAs) seek to distinguish training members from nonmembers using model behavior. We investigate attack sensitivity and teacher--student distillation defenses across tabular classification (Adult), image classification (CIFAR-10), and causal language modeling (Gemma 3 4B). In the Adult experiments, an overfit teacher exhibits shadow-attack ROC AUC of approximately 0.581, whereas realistically regularized and early-stopped teachers yield approximately 0.51 under the reported attack. 
+
+Confidence-clipped students retain high predictive accuracy while reducing the evaluated attack's AUC. For Gemma, controlled WikiText-103 fine-tuning and independent shadow LoRA models establish reproducible, modest membership leakage: four-seed logistic and random-forest attack AUCs are $0.5601\pm0.0155$ and $0.5575\pm0.0141$, respectively. An adjacent-context control probes whether this signal reflects exact membership rather than nearby text alone. In a seed-42 experiment, raw-soft distillation reduces defense-aware logistic attack AUC from 0.5459 to 0.5238 and random-forest AUC from 0.5448 to 0.5267, while validation negative log-likelihood changes from 2.24535 to 2.24652. These findings support a preliminary utility-preserving reduction in attack separability under the tested threat models, but do not establish a formal privacy guarantee or isolate additional benefits of confidence-aware transformations in Gemma.
+\end{abstract}
+
+\section{Introduction}
+Membership inference attacks attempt to determine whether a particular example was used to train a model. Such leakage can reveal participation in a sensitive dataset even when the underlying training records are not directly exposed. Attack success depends on the training regime, available model outputs, attacker knowledge, and the evaluation protocol; weak attacks near chance do not establish an absence of membership information.
+
+We examine a defense family that transfers a teacher's behavior to a newly initialized student, optionally transforming the supervision by temperature adjustment, confidence clipping, filtering, or feature generalization. Our earlier Adult and CIFAR-10 experiments evaluate these transformations for classifiers. We extend the investigation to a causal language model, where each input sequence produces token-level probability distributions rather than one class-probability vector. This requires different attack features, a computationally feasible distillation cache, and explicit controls for contextual similarity.
+
+Our contributions are: (i) an empirical comparison of attack strength and training regimes for Adult and CIFAR-10; (ii) a controlled Gemma 3 4B LoRA membership benchmark with independently trained shadow models and four-seed undefended replication; (iii) an adjacent-context control for the WikiText corpus; (iv) a Top-$K$ distillation implementation retaining residual vocabulary mass; and (v) a seed-42 comparison of undefended and raw-soft distilled models under a defense-aware shadow attack, reporting both privacy and utility. The additional effect of confidence-aware Gemma variants remains an open experimental question.
+
+\section{Related Work}
+(2016) (information leakage bounds)
+A prominent piece of work focuses on formal privacy guarantees through techniques such as differential privacy, as described in Deep Learning with Differential Privacy (Abadi et al., 2016). These methods provide theoretical bounds on information leakage by introducing noise during training. Although they offer strong guarantees, they come at the cost of reduced model utility (accuracy) and require careful tuning of privacy budgets, making them less practical in some real-world scenarios.
+(2017) (core attack)
+Membership inference attacks were first formalized by Membership Inference Attacks Against Machine Learning Models (Shokri et al., 2017), who demonstrated that an adversary with black-box access to a model can determine whether a data sample was included in its training set. Their approach relies on training shadow models to mimic the target model’s behavior and then using the resulting outputs to train an attack classifier. This work established the foundation for subsequent membership inference research. However, their results are strongest in settings with high model capacity, overfitting, and multi-class datasets, which may not generalize to more constrained or well-regularized scenarios (Our research heavily abuses those weaknesses).
+(2018) (GAN-based architecure)
+Defensive strategies have also been widely studied. One common approach is adversarial regularization, as introduced in Membership Privacy through Adversarial Regularization (Nasr et al., 2018), where a model is trained jointly with an adversary that attempts to infer membership. The model is penalized when the adversary succeeds, encouraging it to suppress membership signals during training. While effective, this approach requires modifying the training process and introduces additional complexity, including balancing competing objectives between utility and privacy. (introducing a more pronounced utility tradeoff, whereas our approach sustains strong predictive performance while achieving near-random attack effectiveness.)
+(2019)
+Another perspective on the effectiveness of MIA attacks is provided in Systematic Evaluation of Privacy Risks of Machine Learning Models (Jayaraman and Evans, 2019), which evaluates attack performance across a range of datasets, model types, and defense strategies. Their results show that attack success is highly dependent on factors such as overfitting, model complexity, and data distribution, and that many proposed defenses introduce significant tradeoffs between utility and privacy. This work highlights that membership inference risk is not uniform across settings and must be evaluated empirically rather than assumed, motivating the need for systematic analysis of both attack effectiveness and defense mechanisms. (a trend also reflected in our results, where leakage varies with training dynamics; however, our findings further suggest that near-random attack performance can be achieved with only minimal utility degradation)
+(2021)
+Subsequent work has explored variations of MIA attacks with reduced assumptions. Label-only attacks, such as those proposed in Label-Only Membership Inference Attacks (Choquette-Choo et al., 2021), demonstrate that attackers can infer membership using only predicted labels rather than full probability vectors. While these methods are appealing in more restricted threat models, they rely heavily on differences in model decision boundaries and are less effective when models generalize well or exhibit minimal confidence separation between training and test data. (a trend present even in a shokri-style attack)
+More recently, data-centric approaches have been explored to preserve privacy. For example, anonymization methods using generative models based on diffusion techniques try to preserve task-relevant information while removing sensitive attributes. These methods focus on transforming the data representation itself rather than modifying model architecture. However, they are designed for specific data modalities and require complex generative modeling pipelines.
+In contrast to prior work, this study focuses on understanding the role of training dynamics in membership inference leakage and introduces a practical defense pipeline that transforms the training signal via teacher--student distillation and confidence-aware processing. Prior observations that MIA attacks often exploit model overconfidence and memorization motivate a data-driven approach that directly modifies the confidence structure of model outputs. By combining insights from attack design and data transformation, our approach aims to reduce leakage without requiring architectural changes or formal privacy constraints, instead targeting key signals associated with membership inference vulnerability.
+
+\section{Methodology}
+
+\subsection{Datasets}
+We evaluate our approach on the Adult Income dataset from the UCI Machine Learning Repository, a widely used benchmark for tabular classification. The dataset contains a mix of numerical and categorical features describing demographic and employment attributes, with the prediction task being to determine whether an individual’s income exceeds a specified threshold. 
+Tabular data is a good use case for two reasons. First, it allows for meaningful feature-level transformations, such as generalization and anonymization, which are more difficult to apply within high-dimensional image domains. Second, tabular datasets often contain quasi-identifiers, making them relevant for privacy-focused analysis.
+In addition to the Adult dataset, we used the CIFAR-10 dataset to analyze behavior in an image setting. CIFAR-10 is commonly used in membership inference research due to its multi-class structure and the higher-capacity models it requires. 
+The image task supplies a distinct output structure and a complementary setting for testing the attack and defense pipelines.
+Prior to training, the dataset is preprocessed using standard techniques, including normalization of numerical features, one-hot encoding of categorical variables, and handling of missing values. The dataset is then split into training, validation, and test sets for model development and evaluation.
+
+
+\subsection{Teacher Models}
+We construct three variants of a baseline neural network model, referred to as Model A (the teacher models). Each variant is trained under different conditions to isolate how overfitting and generalization affect attack vulnerability.
+The first variant is an intentionally overfit model, trained for an extended number of epochs with minimal regularization. This model achieves high training accuracy but exhibits a significant gap between training and validation performance, indicating strong memorization of the training data. This setting is meant to amplify signals for membership inference.
+The second variant is a realistically regularized model that incorporates dropout, batch normalization, weight decay, and early stopping. This model is designed to mimic realistic deployment conditions, maximizing generalization and minimizing the gap between training and validation performance. This setting allows evaluation of leakage under stronger generalization controls.
+The third variant is an early-stop model, which uses the same architecture as the overfit model but is trained for a limited number of epochs to maintain a minimal generalization gap. This configuration is intended to maintain constant capacity while reducing the validation gap. It provides a comparison at fixed architecture with different training duration.
+By comparing these three variants, we can analyze how training dynamics, rather than architecture, influence membership inference vulnerability. This controlled setup forms the foundation for both attack evaluation and defense development in subsequent sections.
+The training curves illustrate these regimes.
+
+\begin{figure}[htbp]
+\centering
+\IfFileExists{modelAAccuracy.png}{\includegraphics[width=0.45\textwidth]{modelAAccuracy.png}}{\fbox{Figure unavailable}}
+\caption{Training vs validation accuracy for overfit adult model.}
+\label{fig:modelA-overfit}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\IfFileExists{modelaearlystopacc.png}{\includegraphics[width=0.45\textwidth]{modelaearlystopacc.png}}{\fbox{Figure unavailable}}
+\caption{Training vs validation accuracy for overfit ault model stopped at 5 epochs.}
+\label{fig:modelA-early-stop}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centering
+\IfFileExists{modelarealisticacc.png}{\includegraphics[width=0.45\textwidth]{modelarealisticacc.png}}{\fbox{Figure unavailable}}
+\caption{Training vs validation accuracy for realistic adult model.}
+\label{fig:modelA-realistic}
+\end{figure}
+
+\subsection{Membership Inference Attack Pipeline}
+To evaluate leakage, we implement a series of MIA attacks of increasing complexity. This progression is designed to assess not only whether leakage exists, but also to incrementally attack the models.
+We begin with a baseline confidence-threshold attack, classifying samples as members or non-members based on the model’s maximum prediction confidence . It proved ineffective in attacking the teacher models. Even after correcting for dataset imbalance, the attack achieves near-random performance (ROC AUC $\approx$ 0.50) across all model variants, indicating that confidence alone is not a reliable signal for membership inference in this context.
+To capture more nuanced behavior, we took a step towards Shokri’s methods and implemented a shadow-model-based attack following the general framework introduced by Membership Inference Attacks Against Machine Learning Models (Shokri et al., 2017), with a simplified implementation. In this approach, shadow models are trained to approximate the target model's behavior, and their outputs on member and non-member samples are used to train an attack classifier. An initial implementation using only raw class probabilities also fails to reveal meaningful leakage, suggesting that richer representations are required.
+We extend the attack model and add additional behavioral features from model outputs. These include prediction entropy, confidence margin, loss with respect to the true label, and correctness indicators. This feature-aware attack improves performance on the overfit model (AUC $\approx$ 0.57 on the adult dataset) while remaining near-random for early-stop and realistic models. This result indicates that leakage is present, but that less vulnerable models require more expressive features.
+Finally, we implement a Shokri-style attack with regime-matched shadow models and class-specific attack classifiers. This configuration aligns the training conditions of shadow models with those of the target model and accounts for class-dependent leakage patterns. This version achieves the strongest results, with the overfit model reaching AUC $\approx$ 0.58 (on the adult dataset), while other models remain near random ($\approx$ 0.51). Additional extensions, including expanded feature sets and alternative classifiers such as Random Forests, yield diminishing returns and sometimes worse attacks, suggesting that the primary leakage signal is already captured.
+Building this attack leads to two key findings. First, weak attacks fail to detect membership inference leakage even when it exists. Second, leakage is strongly influenced by training dynamics, with overfitting producing measurable signals while well-generalized models resist even realistic threat models.
+
+\subsection{Student Defense Pipeline}
+To mitigate inference leakage, we propose a defense pipeline that trains student models (Model B) using transformed synthetic data generated by the teacher model (Model A). Rather than modifying the model architecture or training objective, this approach directly acts on the training signal to suppress features with overconfident and memorized signals.
+The pipeline begins with the teacher generating synthetic training labels. For binary classification, the teacher produces class probabilities using a sigmoid output. From there, a set of label-processing strategies is used to modify the generated samples. These include raw soft labels, temperature-scaled soft labels, confidence-clipped probabilities, and hard labels derived from the maximum-probability class . Each transformation adjusts the confidence structure of the training signal to reduce overconfident predictions.
+After label processing, we apply further transformations to the input data, including anonymization via feature generalization and filtering of high-confidence samples. In the adult dataset, a threshold is used; in CIFAR-10, because the overfit model is too confident, a percentage of the highest confidence scores is discarded. Feature generalization reduces the specificity of input attributes, limiting the model’s ability to memorize unique patterns, while confidence-based filtering removes samples that are most likely to carry strong membership signals.
+By combining these strategies, we construct a grid of label-processing and feature-level defense combinations to train the students on. For the Adult dataset, this yields 12 distinct configurations across four label modes and three feature modes. Each configuration is used to train a separate student model with the same base architecture, allowing for controlled comparison across defense strategies.
+All student models are evaluated against the original ground-truth labels to measure task utility, rather than against the teacher-generated labels used during training, ensuring true predictive capability rather than mere mimicry of the teacher model. MIA attacks are then applied to each student model using the validated third variation attack.
+This design allows us to analyze the tradeoff between utility and privacy, and to identify defense strategies that effectively reduce leakage while preserving model performance.
+
+\section{Gemma Experimental Design}
+\subsection{Model, Corpus, and Membership Definition}
+We use the pretrained \texttt{google/gemma-3-4b-pt} model (approximately 4.3 billion parameters) in BF16 without quantization. Experiments run on an NVIDIA RTX 4090. The controlled corpus is the training split of \texttt{wikitext-103-raw-v1}. After concatenating nonempty text and tokenizing, the dataset builder emits 256-token chunks, with a minimum accepted chunk length of 64. It produces 470,735 sequences, of which 470,723 are unique after SHA-256 deduplication. The seed-42 target split contains 5,000 fine-tuning members, 5,000 nonmembers, 1,000 validation sequences, and 1,000 utility-test sequences, with no exact-hash overlap among splits.
+
+Membership refers \emph{only} to inclusion in our controlled LoRA fine-tuning set. Because the original Gemma pretraining corpus is not controlled here, nonmembership in this experiment does not imply absence from pretraining. An untouched base-model control yields direct negative-NLL AUC 0.5121 on the later membership assignment.
+
+\subsection{Target and Shadow LoRA Training}
+The realistic target uses LoRA rank 8, scaling parameter 16, dropout 0.05, and attention projection modules \texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj}, and \texttt{o\_proj}. Approximately 5.95 million parameters (0.1382\% of the model) are trainable. Training uses two epochs, learning rate $2\times10^{-4}$, microbatch size 1, gradient accumulation 8, AdamW, BF16, and gradient checkpointing. The seed-42 target's validation NLL decreases from 2.581326 to 2.245347.
+
+Six independently trained shadow LoRAs per target seed use disjoint data: each shadow has 5,000 members, 5,000 nonmembers, and 1,000 validation examples. Across six shadows, the attack-training set contains 30,000 members and 30,000 nonmembers, with no target or cross-shadow exact overlap. The undefended experiment repeats target/shadow construction at seeds 42, 123, 456, and 789.
+
+\subsection{Attack Features and Knowledge}
+For causal language modeling, we summarize token-level losses using sequence negative log-likelihood (NLL), median, minimum, maximum, and standard deviation of token loss, and Min-$K$ statistics for the hardest 10\%, 20\%, 30\%, and 40\% of positions. We fit standardized logistic regression and random-forest attack classifiers on shadow observations, reserving target membership labels exclusively for evaluation.
+
+The \emph{non-adaptive} attacker trains on ordinary LoRA shadow outputs and tests on the defended student. The stronger \emph{adaptive} attacker knows the raw-soft defense algorithm and trains its own shadow teachers, distills them into shadow students, and fits its attack using only shadow-student outputs. It does not access the private target teacher. The reported raw-soft learned-attack results below use the adaptive setting. A separately reported hard-label black-box AUC is not directly comparable to these token-loss-based attacks because the observable information differs.
+
+\subsection{Adjacent-Context Control}
+Because WikiText was converted into contiguous token chunks without retaining article identifiers, nearby nonmember chunks could resemble members in subject matter or style. We reconstruct the stream and pair each of the 5,000 target members with the nearest unique unused nonmember chunk, excluding reserved splits. The immediate-neighbor fraction is 99.96\%, with mean absolute offset 1.0004 chunks. This is an \emph{adjacent-context}, not a verified same-article, control. We compare exact members with random nonmembers, exact members with adjacent nonmembers, and adjacent with random nonmembers.
+
+\subsection{Top-64 Raw-Soft Distillation}
+The teacher is evaluated once over its 5,000 training sequences. A cache of 1,274,993 prediction positions stores the 64 highest-logit token IDs, corresponding logits, exact top-1 confidence, captured Top-64 probability mass, and alignment information; the cache occupies approximately 0.48 GB. Mean Top-64 captured mass is 0.930745 (median 0.982407). To avoid incorrectly renormalizing away omitted vocabulary mass, the teacher distribution is represented as
+\begin{equation}
+\widetilde{p}_T=(p_T(v_1),\ldots,p_T(v_{64}),p_{T,\mathrm{other}}),\quad
+p_{T,\mathrm{other}}=1-\sum_{i=1}^{64}p_T(v_i).
+\end{equation}
+The student's full-vocabulary distribution is aggregated over the same 64 tokens and a complementary ``other'' bucket. The raw-soft student begins from a fresh Gemma base checkpoint with a new LoRA adapter; it is trained on cached teacher distributions with temperature 1, no clipping, no filtering, and no direct hard-label cross-entropy target. Thus raw-soft isolates the effect of ordinary distillation before evaluating additional confidence-aware mechanisms. In the seed-42 teacher cache, 23.66\% of token positions exceed top-1 confidence 0.85 and 16.64\% exceed 0.95; these are descriptive calibration measurements, not thresholds selected by attack performance.
+
+\section{Evaluation}
+
+\subsection{Metrics}
+Model accuracy is measured using classification accuracy and F1 score against the original ground-truth labels. This ensures that performance reflects true predictive capability rather than agreement with teacher-generated labels.
+Privacy risk is evaluated using MIA attacks, with performance measured using the Area Under the Receiver Operating Characteristic Curve (ROC AUC). Unlike accuracy, which depends on a specific decision threshold, AUC measures the attack model’s ability to distinguish between member and non-member samples across all thresholds.
+Accuracy alone can be misleading in this setting, particularly when the attack dataset is imbalanced. For example, an attack model that predicts all samples as members may achieve high accuracy while failing to learn a meaningful distinction. AUC provides a more reliable measure of attack effectiveness by capturing the separability of the underlying score distributions.
+Throughout this work, an AUC near 0.5 is interpreted as random guessing, indicating minimal membership inference leakage, whereas higher values indicate greater vulnerability. AUC below 0.5 can reflect reversed ranking; it should not automatically be interpreted as improved privacy because score inversion may restore discrimination.
+
+\subsection{Teacher Model Results}
+We first evaluate MIA attacks on the Model A variants on to establish a leakage baseline. Using the strongest attack configuration, we observe a clear distinction between overfit and well-generalized models.
+The overfit model exhibits the greatest leakage, achieving an attack AUC of approximately 0.58 on the adult dataset; on CIFAR-10, it is 0.68. In contrast, both the early-stop and realistically regularized models produce near-random attack performance, with AUC values close to 0.51. The CIFAR-10 set still has meaningful leakage when well-tuned, but it is massively reduced. These results indicate that overfitting is a primary driver of membership inference vulnerability, while models with small generalization gaps are significantly more resistant.
+These findings also highlight the importance of attack strength. Simpler attacks fail to detect leakage even in the overfit model, while the Shokri-style attack reveals measurable signals. The absence of attack success under weak methods does not necessarily imply the absence of leakage.
+
+\subsection{Student Model Results (Adult)}
+We evaluate the predictive performance of all student models trained under the defense pipeline. Here, ``original denotes the baseline preprocessed feature representation rather than unprocessed records.
+
+Models trained on original feature representations consistently achieve the highest performance, with leakage closer to random guessing (Adult dataset, overfit teacher). The best-performing configuration, student\_clip\_soft\_original, achieves approximately 0.858 accuracy and 0.667 F1 score. Other original-feature variants, including student\_hard\_original and student\_temp\_soft\_original, perform similarly, with accuracies in the range of approximately 0.853--0.856.
+Feature anonymization introduces a small performance reduction, with accuracy decreasing by approximately 1--2\% across configurations (Adult dataset). For example, student\_clip\_soft\_anon achieves approximately 0.846 accuracy. In contrast, filtering high-confidence samples results in a more substantial degradation, with accuracies dropping to approximately 0.816--0.829 due to the reduced number of training samples.
+Across label-processing strategies, confidence clipping provides the most favorable balance, consistently achieving the highest or near-highest accuracy across feature modes. These results indicate that confidence-aware label transformations can preserve strong predictive performance while modifying the training signal.
+All student configurations substantially reduce membership inference leakage compared to the overfit teacher model (Adult dataset, overfit Model A baseline AUC $\approx$ 0.58). Most student models achieve attack AUC values in a narrow range between approximately 0.50 and 0.53, indicating near-random attack performance. For example, student\_clip\_soft\_original achieves an AUC of approximately 0.518, while student\_temp\_soft\_original reaches approximately 0.527.
+Feature anonymization provides a small but consistent reduction in attack performance, with AUC values typically around 0.513--0.515. In contrast, filtered variants produce unstable or below-random AUC values (Adult dataset), such as 0.4017 and 0.3508, which indicate unreliable or inverted attack signals rather than meaningful improvements in privacy.
+The best overall tradeoff is achieved by student\_clip\_soft\_original, which maintains high predictive performance ($\approx$0.858 accuracy) while reducing attack AUC to approximately 0.518 (Adult dataset, overfit teacher). Notably, all non-filtered student configurations reduce leakage to near-random levels while preserving strong utility, demonstrating the effectiveness of the proposed training-signal transformation approach.
+
+\subsection{Student Model Results (CIFAR-10)}
+We evaluate the predictive performance of all student models trained under the defense pipeline. Here, ``original denotes the baseline preprocessed feature representation rather than unprocessed records.
+
+Experiments on the CIFAR-10 dataset show that student models can maintain or even improve predictive performance while reducing membership leakage. In several configurations, student models trained on teacher-derived labels outperform their corresponding teacher models, particularly in the overfit setting, where student accuracy increases from 0.69 to the 0.75--0.77 range while AUC is reduced to near-random levels.
+Both original and filtered feature variants often achieve comparable or improved performance relative to their teachers, while maintaining attack AUC values near 0.50. Notably, for the realistically trained CIFAR-10 teacher, the student\_hard\_filtered configuration achieves performance comparable to the teacher model while producing near-random AUC.
+These results suggest that, when tuned, the proposed pipeline not only reduces leakage but can also improve generalization when the teacher model is overfit. Overall, the CIFAR-10 experiments demonstrate that the defense pipeline can achieve substantial privacy improvements with negligible performance impact, and in some cases, simultaneous gains in both utility and privacy.
+
+\begin{figure}[htbp]
+\centering
+\IfFileExists{arrowplot.png}{\includegraphics[width=0.45\textwidth]{arrowplot.png}}{\fbox{Figure unavailable}}
+\caption{teacher to original student to filtered student}
+\label{fig:arrowplot}
+\end{figure}
+
+\section{Gemma Results}
+\subsection{Undefended Membership Signal}
+Table~\ref{tab:gemma-undefended} summarizes independently trained shadow-model attacks on realistic LoRA targets across four seeds. The above-chance signal is modest but reproducible. On seed 42, direct attacks achieve AUC 0.532789 for negative NLL, 0.547462 for token-loss standard deviation, and 0.545011 for Min-$K$ 10\%.
+\begin{table}[htbp]
+\centering
+\caption{Undefended Gemma shadow-attack results across four seeds (mean $\pm$ reported standard deviation).}
+\label{tab:gemma-undefended}
+\begin{tabular}{lcc}
+\hline
+Attacker & Accuracy & ROC AUC \\
+\hline
+Logistic regression & $0.5434\pm0.0100$ & $0.5601\pm0.0155$ \\
+Random forest & $0.5430\pm0.0118$ & $0.5575\pm0.0141$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Context-Matched Checks}
+Across four target seeds, Min-$K$ 10\% AUC is 0.5571 for exact members versus random nonmembers, 0.5449 for exact members versus adjacent nonmembers, and 0.5128 for adjacent versus random nonmembers. For token-loss standard deviation, the corresponding AUCs are 0.5602, 0.5438, and 0.5171. Exact membership retains additional signal under local matching, but the nonzero adjacent-versus-random values caution that context effects are not fully eliminated.
+
+\subsection{Raw-Soft Utility and Adaptive Membership Attack}
+The seed-42 raw-soft student achieves validation NLL 2.246518, compared with 2.245347 for its undefended teacher, an increase of approximately 0.00117. The six defended shadow students yield 60,000 balanced attack-training observations, and the defended target is evaluated on 5,000 members and 5,000 nonmembers that were not used to train the attack. Table~\ref{tab:gemma-defense} compares the undefended target against an ordinary-shadow attacker with the raw-soft target against an attacker retrained on distilled shadow students.
+\begin{table}[htbp]
+\centering
+\caption{Seed-42 Gemma membership inference; attack training matches each target's training procedure.}
+\label{tab:gemma-defense}
+\begin{tabular}{lcc}
+\hline
+Target / attack & Logistic AUC & RF AUC \\
+\hline
+Undefended / ordinary shadows & 0.545891 & 0.544778 \\
+Raw-soft / adaptive shadows & 0.523833 & 0.526652 \\
+\hline
+Absolute AUC decrease & 0.022058 & 0.018126 \\
+\hline
+\end{tabular}
+\end{table}
+
+The corresponding descriptive reductions in excess AUC above 0.5 are 48.1\% for logistic regression and 40.5\% for random forest. These percentages are not reductions in formal privacy risk. Adaptive AUC remains above chance, and defense-side replication across seeds is still needed. The non-adaptive attack-transfer result is not established in the supplied progress record.
+
+\subsection{Separate Hard-Label Observation}
+A subsequent seed-42 hard-label black-box attack run was reported with ROC AUC 0.499. Its exact target checkpoint and defense configuration were not verified in the supplied experiment record. We therefore record this as a preliminary, separate observation and do not compare it numerically with token-loss attacks or attribute it to raw-soft distillation.
+
+\section{Discussion and Limitations}
+The tabular and image experiments suggest that student training can change membership separability while preserving predictive performance; however, conclusions depend on the specific attack implementation. In Adult, for example, below-chance filtered-student AUCs should not be counted automatically as privacy gains, because an inverted score may remain informative. Similarly, the Gemma raw-soft result demonstrates a benefit of ordinary distillation under a defense-aware attack, not an incremental benefit from temperature adjustment, clipping, or filtering. The teacher and student use the same base model family; this is a training-procedure comparison, not a claim of reduced parameter count.
+
+The Gemma membership task covers controlled fine-tuning, not unknown pretraining membership. Adjacent-context matching cannot guarantee shared article provenance. The defended Gemma learned-attack result is presently a single-seed comparison, whereas the undefended benchmark spans four seeds. The evaluated attack families are not exhaustive, and near-chance AUC is not a formal privacy guarantee. Statistical uncertainty for the defense-side change remains to be quantified through repeated seeds and, where appropriate, confidence intervals.
+
+\section{Conclusion and Future Work}
+We evaluated membership inference and teacher--student defenses across tabular, image, and autoregressive language-model settings. The Gemma extension establishes a controlled, reproducible undefended membership signal and an adjacent-context check, then finds that seed-42 raw-soft distillation lowers adaptive shadow-attack AUC while preserving validation NLL. The next experiments should replicate defended Gemma students for seeds 123, 456, and 789, measure non-adaptive transfer on the same frozen target population, and compare temperature-soft, clipped-soft, and filtered-soft variants against the raw-soft baseline under matched adaptive attacks. Future reporting should include uncertainty estimates, query-access assumptions, and utility metrics alongside ROC AUC.
+
+\begin{thebibliography}{00}
+
+\bibitem{shokri}
+R. Shokri et al., ``Membership Inference Attacks Against Machine Learning Models,'' IEEE S\&P, 2017.
+
+\bibitem{choquette}
+C. Choquette-Choo et al., ``Label-Only Membership Inference Attacks,'' ICML, 2021.
+
+\bibitem{nasr}
+M. Nasr et al., ``Membership Privacy through Adversarial Regularization,'' CCS, 2018.
+
+\bibitem{abadi}
+M. Abadi et al., ``Deep Learning with Differential Privacy,'' CCS, 2016.
+
+\bibitem{jayaraman}
+B. Jayaraman and D. Evans, ``Evaluating Differentially Private Machine Learning in Practice,'' USENIX, 2019.
+
+\bibitem{ho}
+J. Ho et al., ``Denoising Diffusion Probabilistic Models,'' NeurIPS, 2020.
+
+\bibitem{lora}
+E. J. Hu et al., ``LoRA: Low-Rank Adaptation of Large Language Models,'' ICLR, 2022.
+\end{thebibliography}
+
+\end{document}
