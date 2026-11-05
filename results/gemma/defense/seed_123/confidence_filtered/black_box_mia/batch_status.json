@@ -1,0 +1,9 @@
+{
+  "seed": 123,
+  "defense": "confidence_filtered",
+  "status": "complete",
+  "returncode": 0,
+  "elapsed_seconds": 13340.3,
+  "summary": "results/gemma/defense/seed_123/confidence_filtered/black_box_mia/black_box_mia_confidence_filtered_seed_123_summary.csv",
+  "summary_valid": true
+}

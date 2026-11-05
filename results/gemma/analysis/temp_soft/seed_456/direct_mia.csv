@@ -1,0 +1,11 @@
+seed,defense,signal,roc_auc,source
+456,temp_soft,nll,0.4947742,results/gemma/defense/seed_456/temp_soft/black_box_mia/shadows/shadow_00/membership_auc.csv
+456,temp_soft,perplexity,0.4947742,results/gemma/defense/seed_456/temp_soft/black_box_mia/shadows/shadow_00/membership_auc.csv
+456,temp_soft,median_token_loss,0.50472746,results/gemma/defense/seed_456/temp_soft/black_box_mia/shadows/shadow_00/membership_auc.csv
+456,temp_soft,min_token_loss,0.5,results/gemma/defense/seed_456/temp_soft/black_box_mia/shadows/shadow_00/membership_auc.csv
+456,temp_soft,max_token_loss,0.5005191600000001,results/gemma/defense/seed_456/temp_soft/black_box_mia/shadows/shadow_00/membership_auc.csv
+456,temp_soft,std_token_loss,0.4966045,results/gemma/defense/seed_456/temp_soft/black_box_mia/shadows/shadow_00/membership_auc.csv
+456,temp_soft,min_k_10,0.49719038,results/gemma/defense/seed_456/temp_soft/black_box_mia/shadows/shadow_00/membership_auc.csv
+456,temp_soft,min_k_20,0.4959552999999999,results/gemma/defense/seed_456/temp_soft/black_box_mia/shadows/shadow_00/membership_auc.csv
+456,temp_soft,min_k_30,0.4949953199999999,results/gemma/defense/seed_456/temp_soft/black_box_mia/shadows/shadow_00/membership_auc.csv
+456,temp_soft,min_k_40,0.49441744,results/gemma/defense/seed_456/temp_soft/black_box_mia/shadows/shadow_00/membership_auc.csv

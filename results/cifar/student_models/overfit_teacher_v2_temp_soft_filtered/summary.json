@@ -1,0 +1,17 @@
+{
+    "variant_name": "overfit_teacher_v2_temp_soft_filtered",
+    "teacher_name": "overfit_teacher_v2",
+    "label_mode": "temp_soft",
+    "label_type": "soft",
+    "filter_mode": "filtered",
+    "num_train_samples": 10200,
+    "num_val_samples": 1800,
+    "num_test_samples": 10000,
+    "best_epoch": 39,
+    "train_acc": 0.7397058823529412,
+    "val_acc": 0.7038888888888889,
+    "test_acc": 0.7536,
+    "train_f1": 0.7527065844098086,
+    "val_f1": 0.7162887580171675,
+    "test_f1": 0.7536629669741648
+}

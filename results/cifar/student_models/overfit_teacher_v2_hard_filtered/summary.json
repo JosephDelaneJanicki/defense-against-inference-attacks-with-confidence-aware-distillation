@@ -1,0 +1,17 @@
+{
+    "variant_name": "overfit_teacher_v2_hard_filtered",
+    "teacher_name": "overfit_teacher_v2",
+    "label_mode": "hard",
+    "label_type": "hard",
+    "filter_mode": "filtered",
+    "num_train_samples": 10200,
+    "num_val_samples": 1800,
+    "num_test_samples": 10000,
+    "best_epoch": 38,
+    "train_acc": 0.7415686274509804,
+    "val_acc": 0.71,
+    "test_acc": 0.7442,
+    "train_f1": 0.7521721370020662,
+    "val_f1": 0.7204736236222637,
+    "test_f1": 0.7433913357133666
+}

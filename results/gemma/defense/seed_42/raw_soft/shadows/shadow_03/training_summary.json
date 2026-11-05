@@ -1,0 +1,16 @@
+{
+  "experiment": "gemma_raw_soft_shadow_student",
+  "seed": 45,
+  "base_model": "google/gemma-3-4b-pt",
+  "teacher_cache": "data/gemma/defense/seed_42/raw_soft/shadows/shadow_03/teacher_topk/teacher_topk_cache.pt",
+  "train_sequences": 5000,
+  "validation_sequences": 1000,
+  "epochs": 2,
+  "learning_rate": 0.0002,
+  "gradient_accumulation": 8,
+  "initial_validation_nll": 2.5771966846734653,
+  "final_validation_nll": 2.2365571046126314,
+  "mean_kd_loss": 1.7088238751709461,
+  "training_seconds": 2237.4929418563843,
+  "peak_allocated_gb": 9.12790584564209
+}

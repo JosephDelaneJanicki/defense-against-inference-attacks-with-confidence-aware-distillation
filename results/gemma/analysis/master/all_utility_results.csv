@@ -1,0 +1,17 @@
+seed,defense,metric,value,source
+42,clip_soft,training_seconds,2244.996031999588,results/gemma/defense/seed_42/clip_soft/training_summary.json
+42,confidence_filtered,training_seconds,1925.7883460521698,results/gemma/defense/seed_42/confidence_filtered/training_summary.json
+42,raw_soft,training_seconds,1998.30779671669,results/gemma/defense/seed_42/raw_soft/training_summary.json
+42,temp_soft,training_seconds,2235.156683444977,results/gemma/defense/seed_42/temp_soft/training_summary.json
+123,clip_soft,training_seconds,2234.3254566192627,results/gemma/defense/seed_123/clip_soft/training_summary.json
+123,confidence_filtered,training_seconds,1941.541826725006,results/gemma/defense/seed_123/confidence_filtered/training_summary.json
+123,raw_soft,training_seconds,2239.4115216732025,results/gemma/defense/seed_123/raw_soft/training_summary.json
+123,temp_soft,training_seconds,2242.781744003296,results/gemma/defense/seed_123/temp_soft/training_summary.json
+456,clip_soft,training_seconds,2242.6617698669434,results/gemma/defense/seed_456/clip_soft/training_summary.json
+456,confidence_filtered,training_seconds,1931.485420703888,results/gemma/defense/seed_456/confidence_filtered/training_summary.json
+456,raw_soft,training_seconds,2242.841106891632,results/gemma/defense/seed_456/raw_soft/training_summary.json
+456,temp_soft,training_seconds,2244.3122947216034,results/gemma/defense/seed_456/temp_soft/training_summary.json
+789,clip_soft,training_seconds,2237.0937156677246,results/gemma/defense/seed_789/clip_soft/training_summary.json
+789,confidence_filtered,training_seconds,1938.3651957511902,results/gemma/defense/seed_789/confidence_filtered/training_summary.json
+789,raw_soft,training_seconds,2239.914855480194,results/gemma/defense/seed_789/raw_soft/training_summary.json
+789,temp_soft,training_seconds,2235.5867726802826,results/gemma/defense/seed_789/temp_soft/training_summary.json

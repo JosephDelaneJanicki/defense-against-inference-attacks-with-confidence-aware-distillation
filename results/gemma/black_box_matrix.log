@@ -1,0 +1,36 @@
+nohup: ignoring input
+[RUN] 42/raw_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense raw_soft --seed 42
+[COMPLETE] 42/raw_soft (6s)
+[RUN] 42/temp_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense temp_soft --seed 42
+[COMPLETE] 42/temp_soft (13276s)
+[RUN] 42/clip_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense clip_soft --seed 42
+[COMPLETE] 42/clip_soft (13263s)
+[RUN] 42/confidence_filtered: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense confidence_filtered --seed 42
+[COMPLETE] 42/confidence_filtered (13253s)
+[RUN] 123/raw_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense raw_soft --seed 123
+[COMPLETE] 123/raw_soft (13191s)
+[RUN] 123/temp_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense temp_soft --seed 123
+[COMPLETE] 123/temp_soft (13282s)
+[RUN] 123/clip_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense clip_soft --seed 123
+[COMPLETE] 123/clip_soft (13208s)
+[RUN] 123/confidence_filtered: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense confidence_filtered --seed 123
+[COMPLETE] 123/confidence_filtered (13340s)
+[RUN] 456/raw_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense raw_soft --seed 456
+[COMPLETE] 456/raw_soft (13286s)
+[RUN] 456/temp_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense temp_soft --seed 456
+[COMPLETE] 456/temp_soft (13216s)
+[RUN] 456/clip_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense clip_soft --seed 456
+[COMPLETE] 456/clip_soft (13321s)
+[RUN] 456/confidence_filtered: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense confidence_filtered --seed 456
+[COMPLETE] 456/confidence_filtered (13673s)
+[RUN] 789/raw_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense raw_soft --seed 789
+[COMPLETE] 789/raw_soft (13534s)
+[RUN] 789/temp_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense temp_soft --seed 789
+[COMPLETE] 789/temp_soft (13487s)
+[RUN] 789/clip_soft: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense clip_soft --seed 789
+[COMPLETE] 789/clip_soft (13397s)
+[RUN] 789/confidence_filtered: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/run_black_box_mia_pipeline.py --defense confidence_filtered --seed 789
+[COMPLETE] 789/confidence_filtered (13180s)
+[ANALYSIS] Rebuilding analysis tree...
+
+[BATCH FINISHED] completed=16 skipped=0 planned=16 failed=0

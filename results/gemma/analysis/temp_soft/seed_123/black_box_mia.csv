@@ -1,0 +1,3 @@
+seed,defense,attack_type,attacker,source,accuracy,precision,recall,f1,roc_auc
+123,temp_soft,black_box,logistic,results/gemma/defense/seed_123/temp_soft/black_box_mia/black_box_mia_temp_soft_seed_123_summary.csv,0.5,0.5,1.0,0.6666666666666666,0.49819844
+123,temp_soft,black_box,random_forest,results/gemma/defense/seed_123/temp_soft/black_box_mia/black_box_mia_temp_soft_seed_123_summary.csv,0.4998,0.25,0.0002,0.0003996802557953,0.4808141800000001

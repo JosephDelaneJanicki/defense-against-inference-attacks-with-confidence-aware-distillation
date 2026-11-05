@@ -1,0 +1,17 @@
+{
+    "variant_name": "overfit_teacher_v2_clip_soft_original",
+    "teacher_name": "overfit_teacher_v2",
+    "label_mode": "clip_soft",
+    "label_type": "soft",
+    "filter_mode": "original",
+    "num_train_samples": 12750,
+    "num_val_samples": 2250,
+    "num_test_samples": 10000,
+    "best_epoch": 39,
+    "train_acc": 0.8233725490196079,
+    "val_acc": 0.7902222222222223,
+    "test_acc": 0.7744,
+    "train_f1": 0.8202781644296703,
+    "val_f1": 0.7884836199277612,
+    "test_f1": 0.7729623261553099
+}

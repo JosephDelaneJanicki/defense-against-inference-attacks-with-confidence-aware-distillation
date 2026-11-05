@@ -1,0 +1,15 @@
+{
+    "variant_name": "student_hard_filtered",
+    "label_mode": "hard",
+    "label_type": "hard",
+    "feature_mode": "filtered",
+    "input_dim": 107,
+    "num_train_samples": 7485,
+    "best_epoch": 4,
+    "train_acc": 0.6256513026052104,
+    "val_acc": 0.8238003838771593,
+    "test_acc": 0.8157436789845429,
+    "train_f1": 0.5729960377933557,
+    "val_f1": 0.6459244021599383,
+    "test_f1": 0.6221662468513854
+}

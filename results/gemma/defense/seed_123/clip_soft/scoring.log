@@ -1,0 +1,67 @@
+
+
+=== COMMAND 2026-10-15 05:28:20 ===
+/home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/score_defense_student.py --adapter /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/defense/seed_123/clip_soft/adapter --output-dir /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/defense/seed_123/clip_soft --members /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/data/gemma/members.jsonl --nonmembers /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/data/gemma/nonmembers.jsonl
+========================================================================
+GEMMA DEFENSE STUDENT MEMBERSHIP SCORING
+========================================================================
+
+Adapter: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/defense/seed_123/clip_soft/adapter
+Members: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/data/gemma/members.jsonl
+Nonmembers: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/data/gemma/nonmembers.jsonl
+
+Frozen attack population:
+Members: 5000
+Nonmembers: 5000
+Total: 10000
+
+Loading fresh Gemma base in BF16...
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 17260.35it/s]
+Loading defended student adapter...
+
+Scoring...
+Scored 4/10000
+Scored 500/10000
+Scored 1000/10000
+Scored 1500/10000
+Scored 2000/10000
+Scored 2500/10000
+Scored 3000/10000
+Scored 3500/10000
+Scored 4000/10000
+Scored 4500/10000
+Scored 5000/10000
+Scored 5500/10000
+Scored 6000/10000
+Scored 6500/10000
+Scored 7000/10000
+Scored 7500/10000
+Scored 8000/10000
+Scored 8500/10000
+Scored 9000/10000
+Scored 9500/10000
+Scored 10000/10000
+
+=== RAW-SOFT STUDENT DIRECT MIA ===
+-NLL                  : AUC = 0.530827
+-Perplexity           : AUC = 0.530827
+Median token loss     : AUC = 0.521673
+Min token loss        : AUC = 0.463779
+Max token loss        : AUC = 0.523955
+Std token loss        : AUC = 0.541117
+Min-K 10%             : AUC = 0.540106
+Min-K 20%             : AUC = 0.538067
+Min-K 30%             : AUC = 0.535733
+Min-K 40%             : AUC = 0.534080
+
+=== NLL GROUP STATISTICS ===
+Members     : mean=2.203022, median=2.212931
+Nonmembers  : mean=2.251027, median=2.253482
+
+========================================================================
+DEFENSE STUDENT SCORING COMPLETE
+========================================================================
+
+Saved:
+  /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/defense/seed_123/clip_soft/membership_scores.csv
+  /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/defense/seed_123/clip_soft/membership_auc.csv

@@ -1,0 +1,14 @@
+{
+    "model": "cifar_overfit_teacher_v2",
+    "train_size": 15000,
+    "epochs": 10,
+    "train_acc": 0.9222666666666667,
+    "test_acc": 0.6923,
+    "train_f1": 0.9218200103811908,
+    "test_f1": 0.6908428690611127,
+    "train_conf_min": 0.23033127188682556,
+    "train_conf_mean": 0.9015899896621704,
+    "train_conf_median": 0.9835355281829834,
+    "train_conf_max": 1.0,
+    "test_conf_mean": 0.8511476516723633
+}

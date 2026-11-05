@@ -1,0 +1,6 @@
+metric,roc_auc
+-NLL,0.51208998
+-Perplexity,0.51208998
+-Median token loss,0.505528
+-Max token loss,0.4980159
+-Std token loss,0.5161890600000001

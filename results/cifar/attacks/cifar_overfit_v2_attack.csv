@@ -1,0 +1,2 @@
+attack_accuracy,attack_precision,attack_recall,attack_f1,attack_auc
+0.635,0.593167701863354,0.8595,0.7019191506737444,0.674572

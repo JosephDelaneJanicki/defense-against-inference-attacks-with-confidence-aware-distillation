@@ -1,0 +1,10 @@
+seed,target,metric,roc_auc,effective_auc
+123,realistic_lora_seed_123,-NLL,0.5519694,0.5519694
+123,realistic_lora_seed_123,-Perplexity,0.5519694,0.5519694
+123,realistic_lora_seed_123,-Median token loss,0.5351882,0.5351882
+123,realistic_lora_seed_123,-Max token loss,0.54529348,0.54529348
+123,realistic_lora_seed_123,-Std token loss,0.57283566,0.57283566
+123,realistic_lora_seed_123,Min-K 10%,0.56917688,0.56917688
+123,realistic_lora_seed_123,Min-K 20%,0.56595818,0.56595818
+123,realistic_lora_seed_123,Min-K 30%,0.56234786,0.56234786
+123,realistic_lora_seed_123,Min-K 40%,0.5597651,0.5597651

@@ -1,0 +1,2 @@
+seed,defense,metric,value,source
+42,temp_soft,training_seconds,2235.156683444977,results/gemma/defense/seed_42/temp_soft/training_summary.json

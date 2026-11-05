@@ -1,0 +1,17 @@
+{
+    "variant_name": "realistic_teacher_raw_soft_original",
+    "teacher_name": "realistic_teacher",
+    "label_mode": "raw_soft",
+    "label_type": "soft",
+    "filter_mode": "original",
+    "num_train_samples": 38250,
+    "num_val_samples": 6750,
+    "num_test_samples": 10000,
+    "best_epoch": 33,
+    "train_acc": 0.9020130718954248,
+    "val_acc": 0.878962962962963,
+    "test_acc": 0.8681,
+    "train_f1": 0.9017592605989302,
+    "val_f1": 0.8791379072647123,
+    "test_f1": 0.8679479058111882
+}

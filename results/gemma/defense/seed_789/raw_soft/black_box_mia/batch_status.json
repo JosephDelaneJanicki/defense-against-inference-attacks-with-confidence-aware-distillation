@@ -1,0 +1,9 @@
+{
+  "seed": 789,
+  "defense": "raw_soft",
+  "status": "complete",
+  "returncode": 0,
+  "elapsed_seconds": 13534.4,
+  "summary": "results/gemma/defense/seed_789/raw_soft/black_box_mia/black_box_mia_raw_soft_seed_789_summary.csv",
+  "summary_valid": true
+}

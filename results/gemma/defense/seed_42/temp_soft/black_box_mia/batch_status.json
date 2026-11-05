@@ -1,0 +1,9 @@
+{
+  "seed": 42,
+  "defense": "temp_soft",
+  "status": "complete",
+  "returncode": 0,
+  "elapsed_seconds": 13276.3,
+  "summary": "results/gemma/defense/seed_42/temp_soft/black_box_mia/black_box_mia_temp_soft_seed_42_summary.csv",
+  "summary_valid": true
+}

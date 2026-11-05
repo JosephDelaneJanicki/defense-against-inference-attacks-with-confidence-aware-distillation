@@ -1,0 +1,17 @@
+{
+    "variant_name": "realistic_teacher_hard_original",
+    "teacher_name": "realistic_teacher",
+    "label_mode": "hard",
+    "label_type": "hard",
+    "filter_mode": "original",
+    "num_train_samples": 38250,
+    "num_val_samples": 6750,
+    "num_test_samples": 10000,
+    "best_epoch": 40,
+    "train_acc": 0.9065620915032679,
+    "val_acc": 0.8754074074074074,
+    "test_acc": 0.8717,
+    "train_f1": 0.9058837564848193,
+    "val_f1": 0.8748699942444491,
+    "test_f1": 0.8710224016214798
+}

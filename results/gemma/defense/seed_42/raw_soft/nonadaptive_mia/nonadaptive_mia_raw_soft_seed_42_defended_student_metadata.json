@@ -1,0 +1,42 @@
+{
+  "seed": 42,
+  "defense": "raw_soft",
+  "attack_type": "nonadaptive",
+  "threat_model": "Attacker trained on undefended LoRA shadow outputs and evaluated on the defended target student.",
+  "shadow_model_type": "undefended_lora",
+  "target_model_type": "raw_soft_defended_student",
+  "attacker_seed": 42,
+  "shadow_scores": "results/gemma/multiseed/seed_42/shadows/all_shadow_membership_scores.csv",
+  "target_scores": "results/gemma/defense/seed_42/raw_soft/membership_scores.csv",
+  "shadow_observations": 60000,
+  "target_observations": 10000,
+  "features": [
+    "nll",
+    "median_token_loss",
+    "min_token_loss",
+    "max_token_loss",
+    "std_token_loss",
+    "min_k_10",
+    "min_k_20",
+    "min_k_30",
+    "min_k_40"
+  ],
+  "results": {
+    "logistic": {
+      "attacker": "logistic",
+      "accuracy": 0.522,
+      "precision": 0.5225872689938398,
+      "recall": 0.509,
+      "f1": 0.5157041540020263,
+      "roc_auc": 0.52858736
+    },
+    "random_forest": {
+      "attacker": "random_forest",
+      "accuracy": 0.5249,
+      "precision": 0.5233890663159873,
+      "recall": 0.5572,
+      "f1": 0.5397655720236365,
+      "roc_auc": 0.52841924
+    }
+  }
+}

@@ -1,0 +1,11 @@
+defense,attack_type,target_model_type,attacker,metric,n_seeds,seeds,mean,std,min,max
+raw_soft,nonadaptive,raw_soft_defended_student,logistic,accuracy,1,42,0.522,,0.522,0.522
+raw_soft,nonadaptive,raw_soft_defended_student,logistic,precision,1,42,0.5225872689938398,,0.5225872689938398,0.5225872689938398
+raw_soft,nonadaptive,raw_soft_defended_student,logistic,recall,1,42,0.509,,0.509,0.509
+raw_soft,nonadaptive,raw_soft_defended_student,logistic,f1,1,42,0.5157041540020263,,0.5157041540020263,0.5157041540020263
+raw_soft,nonadaptive,raw_soft_defended_student,logistic,roc_auc,1,42,0.52858736,,0.52858736,0.52858736
+raw_soft,nonadaptive,raw_soft_defended_student,random_forest,accuracy,1,42,0.5249,,0.5249,0.5249
+raw_soft,nonadaptive,raw_soft_defended_student,random_forest,precision,1,42,0.5233890663159873,,0.5233890663159873,0.5233890663159873
+raw_soft,nonadaptive,raw_soft_defended_student,random_forest,recall,1,42,0.5572,,0.5572,0.5572
+raw_soft,nonadaptive,raw_soft_defended_student,random_forest,f1,1,42,0.5397655720236365,,0.5397655720236365,0.5397655720236365
+raw_soft,nonadaptive,raw_soft_defended_student,random_forest,roc_auc,1,42,0.52841924,,0.52841924,0.52841924

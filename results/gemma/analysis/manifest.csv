@@ -1,0 +1,17 @@
+seed,defense,utility,direct,transfer,black_box,adaptive,target_adapter
+42,clip_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_42/clip_soft/adapter
+42,confidence_filtered,complete,complete,missing,complete,missing,results/gemma/defense/seed_42/confidence_filtered/adapter
+42,raw_soft,complete,complete,complete,complete,complete,results/gemma/defense/seed_42/raw_soft/adapter
+42,temp_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_42/temp_soft/adapter
+123,clip_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_123/clip_soft/adapter
+123,confidence_filtered,complete,complete,missing,complete,missing,results/gemma/defense/seed_123/confidence_filtered/adapter
+123,raw_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_123/raw_soft/adapter
+123,temp_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_123/temp_soft/adapter
+456,clip_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_456/clip_soft/adapter
+456,confidence_filtered,complete,complete,missing,complete,missing,results/gemma/defense/seed_456/confidence_filtered/adapter
+456,raw_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_456/raw_soft/adapter
+456,temp_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_456/temp_soft/adapter
+789,clip_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_789/clip_soft/adapter
+789,confidence_filtered,complete,complete,missing,complete,missing,results/gemma/defense/seed_789/confidence_filtered/adapter
+789,raw_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_789/raw_soft/adapter
+789,temp_soft,complete,complete,missing,complete,missing,results/gemma/defense/seed_789/temp_soft/adapter

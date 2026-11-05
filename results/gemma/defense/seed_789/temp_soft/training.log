@@ -1,0 +1,60 @@
+
+
+=== COMMAND 2026-10-15 09:56:22 ===
+/home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/train_defense_student.py --cache /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/defense/seed_789/teacher_cache/teacher_topk_cache.pt --validation /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/data/gemma/validation.jsonl --output-dir /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/defense/seed_789/temp_soft --seed 789 --defense temp_soft
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 19527.11it/s]
+[START] defense=temp_soft seed=789 rows=5000 initial_nll=2.581132
+[transformers] `use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`.
+epoch 1/2 update 25/1250 KD=3.233484
+epoch 1/2 update 50/1250 KD=3.058493
+epoch 1/2 update 75/1250 KD=3.077055
+epoch 1/2 update 100/1250 KD=3.069815
+epoch 1/2 update 125/1250 KD=3.089549
+epoch 1/2 update 150/1250 KD=3.115317
+epoch 1/2 update 175/1250 KD=3.127265
+epoch 1/2 update 200/1250 KD=3.039443
+epoch 1/2 update 225/1250 KD=3.075424
+epoch 1/2 update 250/1250 KD=3.030713
+epoch 1/2 update 275/1250 KD=3.044918
+epoch 1/2 update 300/1250 KD=2.998151
+epoch 1/2 update 325/1250 KD=3.074673
+epoch 1/2 update 350/1250 KD=3.149697
+epoch 1/2 update 375/1250 KD=3.148545
+epoch 1/2 update 400/1250 KD=2.988041
+epoch 1/2 update 425/1250 KD=3.057962
+epoch 1/2 update 450/1250 KD=2.985184
+epoch 1/2 update 475/1250 KD=3.076266
+epoch 1/2 update 500/1250 KD=3.104871
+epoch 1/2 update 525/1250 KD=3.147179
+epoch 1/2 update 550/1250 KD=3.018056
+epoch 1/2 update 575/1250 KD=3.096168
+epoch 1/2 update 600/1250 KD=3.103006
+epoch 1/2 update 625/1250 KD=3.047531
+epoch 1 KD=3.086525 val_nll=2.567323
+epoch 2/2 update 650/1250 KD=2.991897
+epoch 2/2 update 675/1250 KD=3.025187
+epoch 2/2 update 700/1250 KD=3.038187
+epoch 2/2 update 725/1250 KD=3.084610
+epoch 2/2 update 750/1250 KD=3.024825
+epoch 2/2 update 775/1250 KD=3.021206
+epoch 2/2 update 800/1250 KD=3.041905
+epoch 2/2 update 825/1250 KD=3.046181
+epoch 2/2 update 850/1250 KD=2.960343
+epoch 2/2 update 875/1250 KD=3.052504
+epoch 2/2 update 900/1250 KD=3.060357
+epoch 2/2 update 925/1250 KD=3.001319
+epoch 2/2 update 950/1250 KD=2.954456
+epoch 2/2 update 975/1250 KD=3.002329
+epoch 2/2 update 1000/1250 KD=3.052174
+epoch 2/2 update 1025/1250 KD=3.095268
+epoch 2/2 update 1050/1250 KD=3.053519
+epoch 2/2 update 1075/1250 KD=3.177052
+epoch 2/2 update 1100/1250 KD=2.982223
+epoch 2/2 update 1125/1250 KD=3.064524
+epoch 2/2 update 1150/1250 KD=3.136895
+epoch 2/2 update 1175/1250 KD=3.085844
+epoch 2/2 update 1200/1250 KD=3.119099
+epoch 2/2 update 1225/1250 KD=3.139624
+epoch 2/2 update 1250/1250 KD=3.104539
+epoch 2 KD=3.058867 val_nll=2.567679
+[TRAIN COMPLETE] /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/defense/seed_789/temp_soft/adapter NLL 2.581132 -> 2.567679

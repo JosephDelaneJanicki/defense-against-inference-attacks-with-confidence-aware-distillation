@@ -1,0 +1,32 @@
+dataset,role,teacher_group,model_name,label_mode,filter_mode,test_acc,test_f1,attack_auc
+Adult,teacher,adult_overfit,Adult Overfit Teacher,,,0.8395,,0.5812
+CIFAR-10,teacher,cifar_overfit_v2,CIFAR Overfit Teacher v2,,,0.6923,0.6908,0.674572
+CIFAR-10,teacher,cifar_realistic,CIFAR Realistic Teacher,,,0.868,,0.537200395
+Adult,student,adult_overfit,student_raw_soft_original,raw_soft,original,0.8514689323369843,0.6605847953216374,0.5217764729044805
+Adult,student,adult_overfit,student_raw_soft_anon,raw_soft,anon,0.8448152318558706,0.6223218734429496,0.5128882550830417
+Adult,student,adult_overfit,student_raw_soft_filtered,raw_soft,filtered,0.8292558091923431,0.6309734513274337,0.350821866400358
+Adult,student,adult_overfit,student_temp_soft_original,temp_soft,original,0.8538233186610708,0.6567307692307692,0.5273798331382251
+Adult,student,adult_overfit,student_temp_soft_anon,temp_soft,anon,0.8413348346811342,0.6055979643765903,0.5142349487198716
+Adult,student,adult_overfit,student_temp_soft_filtered,temp_soft,filtered,0.8184051591769884,0.6269974768713205,0.4016713185890819
+Adult,student,adult_overfit,student_clip_soft_original,clip_soft,original,0.8580202681953117,0.6671466282697385,0.5179850471786276
+Adult,student,adult_overfit,student_clip_soft_anon,clip_soft,anon,0.8458388780837343,0.6453132359868111,0.5137011154830857
+Adult,student,adult_overfit,student_clip_soft_filtered,clip_soft,filtered,0.8200429931415703,0.6207937877480587,0.4992489722263498
+Adult,student,adult_overfit,student_hard_original,hard,original,0.8557682464940116,0.6639637491056523,0.5175753791171622
+Adult,student,adult_overfit,student_hard_anon,hard,anon,0.8453270549698024,0.6438840443082724,0.514598443200591
+Adult,student,adult_overfit,student_hard_filtered,hard,filtered,0.8157436789845429,0.6221662468513854,0.36861705597791
+CIFAR-10,student,cifar_overfit_v2,overfit_teacher_v2_raw_soft_original,raw_soft,original,0.7751,0.7747313782836461,0.514040665
+CIFAR-10,student,cifar_overfit_v2,overfit_teacher_v2_raw_soft_filtered,raw_soft,filtered,0.7589,0.7577890544059902,0.505298025
+CIFAR-10,student,cifar_overfit_v2,overfit_teacher_v2_temp_soft_original,temp_soft,original,0.7569,0.756098373262563,0.51414745
+CIFAR-10,student,cifar_overfit_v2,overfit_teacher_v2_temp_soft_filtered,temp_soft,filtered,0.7536,0.7536629669741648,0.478619725
+CIFAR-10,student,cifar_overfit_v2,overfit_teacher_v2_clip_soft_original,clip_soft,original,0.7744,0.7729623261553099,0.520660875
+CIFAR-10,student,cifar_overfit_v2,overfit_teacher_v2_clip_soft_filtered,clip_soft,filtered,0.7594,0.7589520747368834,0.5074893850000001
+CIFAR-10,student,cifar_overfit_v2,overfit_teacher_v2_hard_original,hard,original,0.7447,0.7441921370630259,0.506279685
+CIFAR-10,student,cifar_overfit_v2,overfit_teacher_v2_hard_filtered,hard,filtered,0.7442,0.7433913357133666,0.5102051249999999
+CIFAR-10,student,cifar_realistic,realistic_teacher_raw_soft_original,raw_soft,original,0.8681,0.8679479058111882,0.51526329
+CIFAR-10,student,cifar_realistic,realistic_teacher_raw_soft_filtered,raw_soft,filtered,0.8617,0.8599703687985023,0.49089275
+CIFAR-10,student,cifar_realistic,realistic_teacher_temp_soft_original,temp_soft,original,0.8596,0.8570392651043612,0.5061865750000001
+CIFAR-10,student,cifar_realistic,realistic_teacher_temp_soft_filtered,temp_soft,filtered,0.8757,0.8753270337563703,0.462520395
+CIFAR-10,student,cifar_realistic,realistic_teacher_clip_soft_original,clip_soft,original,0.8766,0.8752968647917884,0.5172976349999999
+CIFAR-10,student,cifar_realistic,realistic_teacher_clip_soft_filtered,clip_soft,filtered,0.8669,0.8666781262463357,0.48523769
+CIFAR-10,student,cifar_realistic,realistic_teacher_hard_original,hard,original,0.8717,0.8710224016214798,0.509163385
+CIFAR-10,student,cifar_realistic,realistic_teacher_hard_filtered,hard,filtered,0.8667,0.8667211949320757,0.50072296

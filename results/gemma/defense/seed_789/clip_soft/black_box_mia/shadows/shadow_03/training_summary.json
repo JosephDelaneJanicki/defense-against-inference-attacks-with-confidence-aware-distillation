@@ -1,0 +1,33 @@
+{
+  "experiment": "black_box_shadow",
+  "base_model": "google/gemma-3-4b-pt",
+  "label_source": "released_defended_student_argmax",
+  "soft_teacher_outputs": false,
+  "defense_reproduced": false,
+  "seed": 792,
+  "train_examples": 5000,
+  "validation_examples": 1000,
+  "lora": {
+    "r": 8,
+    "alpha": 16,
+    "dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ]
+  },
+  "training": {
+    "epochs": 2,
+    "learning_rate": 0.0002,
+    "batch_size": 1,
+    "gradient_accumulation": 8,
+    "optimizer": "adamw_torch"
+  },
+  "initial_eval_loss": 1.2699886560440063,
+  "final_eval_loss": 0.16403283178806305,
+  "train_loss": 0.18692361221313478,
+  "training_seconds": 1728.4062328338623,
+  "peak_vram_gb": 8.905156135559082
+}

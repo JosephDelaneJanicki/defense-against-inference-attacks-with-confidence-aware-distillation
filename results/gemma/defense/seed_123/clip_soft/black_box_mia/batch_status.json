@@ -1,0 +1,9 @@
+{
+  "seed": 123,
+  "defense": "clip_soft",
+  "status": "complete",
+  "returncode": 0,
+  "elapsed_seconds": 13207.8,
+  "summary": "results/gemma/defense/seed_123/clip_soft/black_box_mia/black_box_mia_clip_soft_seed_123_summary.csv",
+  "summary_valid": true
+}

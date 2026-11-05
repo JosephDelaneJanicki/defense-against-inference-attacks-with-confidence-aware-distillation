@@ -1,0 +1,10 @@
+target,metric,roc_auc,effective_auc
+realistic_lora,-NLL,0.5327888,0.5327888
+realistic_lora,-Perplexity,0.5327888,0.5327888
+realistic_lora,-Median token loss,0.52116378,0.52116378
+realistic_lora,-Max token loss,0.5289754799999999,0.5289754799999999
+realistic_lora,-Std token loss,0.54746218,0.54746218
+realistic_lora,Min-K 10%,0.54501068,0.54501068
+realistic_lora,Min-K 20%,0.5427995999999999,0.5427995999999999
+realistic_lora,Min-K 30%,0.54009244,0.54009244
+realistic_lora,Min-K 40%,0.53815978,0.53815978

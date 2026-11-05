@@ -1,0 +1,2 @@
+seed,defense,metric,value,source
+123,confidence_filtered,training_seconds,1941.541826725006,results/gemma/defense/seed_123/confidence_filtered/training_summary.json

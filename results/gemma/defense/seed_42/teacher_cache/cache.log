@@ -1,0 +1,17 @@
+
+
+=== COMMAND 2026-10-15 01:02:11 ===
+/home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/cache_teacher_topk_parameterized.py --teacher /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/multiseed/seed_42/realistic_lora/adapter --corpus /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/data/gemma/members.jsonl --output-dir /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/defense/seed_42/teacher_cache
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:  25%|██▌       | 223/883 [00:00<00:00, 2199.18it/s]Loading weights:  50%|█████     | 443/883 [00:00<00:00, 2045.10it/s]Loading weights:  85%|████████▌ | 751/883 [00:00<00:00, 2482.94it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 2464.38it/s]
+Cached 1/5000
+Cached 500/5000
+Cached 1000/5000
+Cached 1500/5000
+Cached 2000/5000
+Cached 2500/5000
+Cached 3000/5000
+Cached 3500/5000
+Cached 4000/5000
+Cached 4500/5000
+Cached 5000/5000
+[CACHE COMPLETE] /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/defense/seed_42/teacher_cache/teacher_topk_cache.pt

@@ -1,0 +1,16 @@
+{
+  "shadow": "shadow_01",
+  "seed": 789,
+  "initial_eval_loss": 2.56838321685791,
+  "final_eval_loss": 2.235687494277954,
+  "train_loss": 2.2115057373046874,
+  "training_seconds": 1750.9039688110352,
+  "peak_vram_gb": 8.904595375061035,
+  "epochs": 2,
+  "learning_rate": 0.0002,
+  "lora_r": 8,
+  "lora_alpha": 16,
+  "lora_dropout": 0.05,
+  "quantization": null,
+  "precision": "bfloat16"
+}

@@ -1,0 +1,15 @@
+{
+    "variant_name": "student_hard_anon",
+    "label_mode": "hard",
+    "label_type": "hard",
+    "feature_mode": "anon",
+    "input_dim": 76,
+    "num_train_samples": 31258,
+    "best_epoch": 25,
+    "train_acc": 0.8695054066159064,
+    "val_acc": 0.8464491362763915,
+    "test_acc": 0.8453270549698024,
+    "train_f1": 0.7010188374990838,
+    "val_f1": 0.65055329062318,
+    "test_f1": 0.6438840443082724
+}

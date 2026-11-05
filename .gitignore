@@ -15,7 +15,7 @@ __pycache__/
 data/
 
 # Generated experimental results
-results/
+# results/
 
 # ML artifacts
 *.pt

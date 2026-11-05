@@ -1,0 +1,53 @@
+
+======================================================================
+Started: 2026-10-30 06:49:35
+Command: /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/src/gemma/build_analysis_tree.py
+================================================================================
+GEMMA ANALYSIS TREE BUILDER
+================================================================================
+
+seed=42 defense=clip_soft
+
+seed=42 defense=confidence_filtered
+
+seed=42 defense=raw_soft
+
+seed=42 defense=temp_soft
+
+seed=123 defense=clip_soft
+
+seed=123 defense=confidence_filtered
+
+seed=123 defense=raw_soft
+
+seed=123 defense=temp_soft
+
+seed=456 defense=clip_soft
+
+seed=456 defense=confidence_filtered
+
+seed=456 defense=raw_soft
+
+seed=456 defense=temp_soft
+
+seed=789 defense=clip_soft
+
+seed=789 defense=confidence_filtered
+
+seed=789 defense=raw_soft
+
+seed=789 defense=temp_soft
+[WRITE] results/gemma/analysis/manifest.csv
+[WRITE] results/gemma/analysis/master/all_attack_results.csv
+[WRITE] results/gemma/analysis/master/attack_summary.csv
+[WRITE] results/gemma/analysis/master/all_utility_results.csv
+[WRITE] results/gemma/analysis/master/utility_summary.csv
+[WRITE] results/gemma/analysis/master/all_direct_mia.csv
+[WRITE] results/gemma/analysis/master/direct_mia_summary.csv
+
+================================================================================
+ANALYSIS TREE COMPLETE
+================================================================================
+
+Manifest: results/gemma/analysis/manifest.csv
+Master: results/gemma/analysis/master

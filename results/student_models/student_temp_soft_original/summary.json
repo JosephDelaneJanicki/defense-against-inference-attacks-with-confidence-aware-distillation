@@ -1,0 +1,15 @@
+{
+    "variant_name": "student_temp_soft_original",
+    "label_mode": "temp_soft",
+    "label_type": "soft",
+    "feature_mode": "original",
+    "input_dim": 107,
+    "num_train_samples": 31258,
+    "best_epoch": 34,
+    "train_acc": 0.8834858276281272,
+    "val_acc": 0.8499040307101727,
+    "test_acc": 0.8538233186610708,
+    "train_f1": 0.7274360125729681,
+    "val_f1": 0.6516186516186516,
+    "test_f1": 0.6567307692307692
+}

@@ -1,0 +1,9 @@
+{
+    "model": "cifar_overfit_teacher",
+    "train_size": 8000,
+    "epochs": 80,
+    "train_acc": 1.0,
+    "test_acc": 0.644,
+    "train_f1": 1.0,
+    "test_f1": 0.6429860708681391
+}

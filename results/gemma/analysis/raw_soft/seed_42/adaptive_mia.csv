@@ -1,0 +1,3 @@
+seed,defense,attack_type,attacker,source,accuracy,precision,recall,f1,roc_auc
+42,raw_soft,adaptive,logistic,results/gemma/defense/seed_42/raw_soft/adaptive_mia/adaptive_mia_summary.csv,0.5217,0.5211130570149834,0.5356,0.5282572245783608,0.5238332
+42,raw_soft,adaptive,random_forest,results/gemma/defense/seed_42/raw_soft/adaptive_mia/adaptive_mia_summary.csv,0.5229,0.5207992733878293,0.5734,0.5458353165159447,0.5266523999999999

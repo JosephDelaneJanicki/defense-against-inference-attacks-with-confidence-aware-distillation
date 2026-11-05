@@ -1,0 +1,15 @@
+{
+    "variant_name": "student_raw_soft_filtered",
+    "label_mode": "raw_soft",
+    "label_type": "soft",
+    "feature_mode": "filtered",
+    "input_dim": 107,
+    "num_train_samples": 7485,
+    "best_epoch": 2,
+    "train_acc": 0.6211088844355377,
+    "val_acc": 0.8303262955854127,
+    "test_acc": 0.8292558091923431,
+    "train_f1": 0.5504121750158529,
+    "val_f1": 0.6431646932185145,
+    "test_f1": 0.6309734513274337
+}

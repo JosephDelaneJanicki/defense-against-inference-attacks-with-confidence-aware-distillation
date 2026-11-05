@@ -1,0 +1,17 @@
+{
+    "variant_name": "realistic_teacher_temp_soft_original",
+    "teacher_name": "realistic_teacher",
+    "label_mode": "temp_soft",
+    "label_type": "soft",
+    "filter_mode": "original",
+    "num_train_samples": 38250,
+    "num_val_samples": 6750,
+    "num_test_samples": 10000,
+    "best_epoch": 39,
+    "train_acc": 0.8884183006535947,
+    "val_acc": 0.8666666666666667,
+    "test_acc": 0.8596,
+    "train_f1": 0.8863059654539349,
+    "val_f1": 0.8644387218365386,
+    "test_f1": 0.8570392651043612
+}

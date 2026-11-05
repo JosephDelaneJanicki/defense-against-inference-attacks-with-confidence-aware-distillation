@@ -1,0 +1,17 @@
+variant_name,teacher_name,label_mode,label_type,filter_mode,test_acc,test_f1,attack_accuracy,attack_precision,attack_recall,attack_f1,attack_auc
+overfit_teacher_v2_raw_soft_original,overfit_teacher_v2,raw_soft,soft,original,0.7751,0.7747313782836461,0.51025,0.5072208524128214,0.72,0.5951642901425914,0.514040665
+overfit_teacher_v2_raw_soft_filtered,overfit_teacher_v2,raw_soft,soft,filtered,0.7589,0.7577890544059902,0.5187,0.512227017130901,0.7834,0.6194354392346011,0.505298025
+overfit_teacher_v2_temp_soft_original,overfit_teacher_v2,temp_soft,soft,original,0.7569,0.756098373262563,0.51025,0.5081941002478215,0.6357,0.5648407303745169,0.51414745
+overfit_teacher_v2_temp_soft_filtered,overfit_teacher_v2,temp_soft,soft,filtered,0.7536,0.7536629669741648,0.50775,0.5054650588816021,0.7168,0.5928621645093255,0.47861972500000005
+overfit_teacher_v2_clip_soft_original,overfit_teacher_v2,clip_soft,soft,original,0.7744,0.7729623261553099,0.51675,0.5144583513163573,0.596,0.5522353486217281,0.520660875
+overfit_teacher_v2_clip_soft_filtered,overfit_teacher_v2,clip_soft,soft,filtered,0.7594,0.7589520747368834,0.5101,0.5091204623442297,0.5638,0.5350669070893044,0.5074893850000001
+overfit_teacher_v2_hard_original,overfit_teacher_v2,hard,hard,original,0.7447,0.7441921370630259,0.51015,0.50732799075879,0.7027,0.5892415412351684,0.506279685
+overfit_teacher_v2_hard_filtered,overfit_teacher_v2,hard,hard,filtered,0.7442,0.7433913357133666,0.5168,0.5121510198177347,0.7081,0.5943926802652565,0.5102051249999999
+realistic_teacher_raw_soft_original,realistic_teacher,raw_soft,soft,original,0.8681,0.8679479058111882,0.5076,0.5057185854025583,0.6721,0.5771575783598111,0.51526329
+realistic_teacher_raw_soft_filtered,realistic_teacher,raw_soft,soft,filtered,0.8617,0.8599703687985023,0.489,0.49270460273245786,0.7429,0.5924714889544621,0.49089275
+realistic_teacher_temp_soft_original,realistic_teacher,temp_soft,soft,original,0.8596,0.8570392651043612,0.50265,0.5021459227467812,0.6201,0.5549241576804331,0.5061865750000001
+realistic_teacher_temp_soft_filtered,realistic_teacher,temp_soft,soft,filtered,0.8757,0.8753270337563703,0.4809,0.4864365857122568,0.685,0.5688896271073831,0.462520395
+realistic_teacher_clip_soft_original,realistic_teacher,clip_soft,soft,original,0.8766,0.8752968647917884,0.5183,0.5112091142962146,0.8346,0.6340499886044215,0.5172976349999999
+realistic_teacher_clip_soft_filtered,realistic_teacher,clip_soft,soft,filtered,0.8669,0.8666781262463357,0.5038,0.5021788990825689,0.8758,0.638338192419825,0.48523769
+realistic_teacher_hard_original,realistic_teacher,hard,hard,original,0.8717,0.8710224016214798,0.5118,0.5073842302878598,0.8108,0.6241724403387221,0.509163385
+realistic_teacher_hard_filtered,realistic_teacher,hard,hard,filtered,0.8667,0.8667211949320757,0.5078,0.5050420168067227,0.7813,0.6135060855908913,0.50072296

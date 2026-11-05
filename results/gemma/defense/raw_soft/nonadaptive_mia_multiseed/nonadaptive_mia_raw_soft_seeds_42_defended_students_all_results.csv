@@ -1,0 +1,3 @@
+seed,defense,attack_type,shadow_model_type,target_model_type,attacker,accuracy,precision,recall,f1,roc_auc
+42,raw_soft,nonadaptive,undefended_lora,raw_soft_defended_student,logistic,0.522,0.5225872689938398,0.509,0.5157041540020263,0.52858736
+42,raw_soft,nonadaptive,undefended_lora,raw_soft_defended_student,random_forest,0.5249,0.5233890663159873,0.5572,0.5397655720236365,0.52841924

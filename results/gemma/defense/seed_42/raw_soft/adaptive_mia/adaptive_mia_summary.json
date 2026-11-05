@@ -1,0 +1,36 @@
+{
+  "seed": 42,
+  "attack_type": "defense-aware adaptive shadow-model MIA",
+  "defense": "raw_soft_distillation",
+  "shadow_scores": "results/gemma/defense/seed_42/raw_soft/shadows/all_shadow_membership_scores.csv",
+  "target_scores": "results/gemma/defense/seed_42/raw_soft/membership_scores.csv",
+  "shadow_observations": 60000,
+  "target_observations": 10000,
+  "features": [
+    "nll",
+    "median_token_loss",
+    "min_token_loss",
+    "max_token_loss",
+    "std_token_loss",
+    "min_k_10",
+    "min_k_20",
+    "min_k_30",
+    "min_k_40"
+  ],
+  "results": {
+    "logistic": {
+      "accuracy": 0.5217,
+      "precision": 0.5211130570149834,
+      "recall": 0.5356,
+      "f1": 0.5282572245783608,
+      "roc_auc": 0.5238332
+    },
+    "random_forest": {
+      "accuracy": 0.5229,
+      "precision": 0.5207992733878293,
+      "recall": 0.5734,
+      "f1": 0.5458353165159447,
+      "roc_auc": 0.5266523999999999
+    }
+  }
+}

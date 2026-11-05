@@ -1,0 +1,173 @@
+nohup: ignoring input
+
+============================================================================
+SHADOW_00
+============================================================================
+[SKIP] cache exists: data/gemma/defense/seed_42/raw_soft/shadows/shadow_00/teacher_topk/teacher_topk_cache.pt
+[SKIP] student exists: results/gemma/defense/seed_42/raw_soft/shadows/shadow_00/adapter
+[SKIP] scores exist: results/gemma/defense/seed_42/raw_soft/shadows/shadow_00/membership_scores.csv
+
+============================================================================
+SHADOW_01
+============================================================================
+[SKIP] cache exists: data/gemma/defense/seed_42/raw_soft/shadows/shadow_01/teacher_topk/teacher_topk_cache.pt
+[SKIP] student exists: results/gemma/defense/seed_42/raw_soft/shadows/shadow_01/adapter
+[SKIP] scores exist: results/gemma/defense/seed_42/raw_soft/shadows/shadow_01/membership_scores.csv
+
+============================================================================
+SHADOW_02
+============================================================================
+[SKIP] cache exists: data/gemma/defense/seed_42/raw_soft/shadows/shadow_02/teacher_topk/teacher_topk_cache.pt
+[SKIP] student exists: results/gemma/defense/seed_42/raw_soft/shadows/shadow_02/adapter
+[SKIP] scores exist: results/gemma/defense/seed_42/raw_soft/shadows/shadow_02/membership_scores.csv
+
+============================================================================
+SHADOW_03
+============================================================================
+[SKIP] cache exists: data/gemma/defense/seed_42/raw_soft/shadows/shadow_03/teacher_topk/teacher_topk_cache.pt
+[SKIP] student exists: results/gemma/defense/seed_42/raw_soft/shadows/shadow_03/adapter
+[SKIP] scores exist: results/gemma/defense/seed_42/raw_soft/shadows/shadow_03/membership_scores.csv
+
+============================================================================
+SHADOW_04
+============================================================================
+[SKIP] cache exists: data/gemma/defense/seed_42/raw_soft/shadows/shadow_04/teacher_topk/teacher_topk_cache.pt
+[SKIP] student exists: results/gemma/defense/seed_42/raw_soft/shadows/shadow_04/adapter
+[SKIP] scores exist: results/gemma/defense/seed_42/raw_soft/shadows/shadow_04/membership_scores.csv
+
+============================================================================
+SHADOW_05
+============================================================================
+[SKIP] cache exists: data/gemma/defense/seed_42/raw_soft/shadows/shadow_05/teacher_topk/teacher_topk_cache.pt
+
+$ /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python src/gemma/train_raw_soft_student_parameterized.py --cache data/gemma/defense/seed_42/raw_soft/shadows/shadow_05/teacher_topk/teacher_topk_cache.pt --validation data/gemma/shadows/shadow_05/validation.jsonl --output-dir results/gemma/defense/seed_42/raw_soft/shadows/shadow_05 --seed 47
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:  25%|██▍       | 217/883 [00:00<00:00, 2117.19it/s]Loading weights:  49%|████▊     | 429/883 [00:00<00:00, 2055.85it/s]Loading weights:  78%|███████▊  | 692/883 [00:00<00:00, 2287.66it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 2347.62it/s]
+[transformers] `use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`.
+Initial validation NLL: 2.5603187922459023
+epoch 1/2 update 25/1250 KD=1.783273
+epoch 1/2 update 50/1250 KD=1.701813
+epoch 1/2 update 75/1250 KD=1.745206
+epoch 1/2 update 100/1250 KD=1.699299
+epoch 1/2 update 125/1250 KD=1.691520
+epoch 1/2 update 150/1250 KD=1.684581
+epoch 1/2 update 175/1250 KD=1.652079
+epoch 1/2 update 200/1250 KD=1.739864
+epoch 1/2 update 225/1250 KD=1.751628
+epoch 1/2 update 250/1250 KD=1.694407
+epoch 1/2 update 275/1250 KD=1.736357
+epoch 1/2 update 300/1250 KD=1.721099
+epoch 1/2 update 325/1250 KD=1.751361
+epoch 1/2 update 350/1250 KD=1.721657
+epoch 1/2 update 375/1250 KD=1.727378
+epoch 1/2 update 400/1250 KD=1.693464
+epoch 1/2 update 425/1250 KD=1.784792
+epoch 1/2 update 450/1250 KD=1.754064
+epoch 1/2 update 475/1250 KD=1.762737
+epoch 1/2 update 500/1250 KD=1.640907
+epoch 1/2 update 525/1250 KD=1.629874
+epoch 1/2 update 550/1250 KD=1.667137
+epoch 1/2 update 575/1250 KD=1.678674
+epoch 1/2 update 600/1250 KD=1.704953
+epoch 1/2 update 625/1250 KD=1.670110
+Epoch 1 KD=1.713821 validation NLL=2.225763
+epoch 2/2 update 650/1250 KD=1.697148
+epoch 2/2 update 675/1250 KD=1.666890
+epoch 2/2 update 700/1250 KD=1.640133
+epoch 2/2 update 725/1250 KD=1.586695
+epoch 2/2 update 750/1250 KD=1.694104
+epoch 2/2 update 775/1250 KD=1.678376
+epoch 2/2 update 800/1250 KD=1.733297
+epoch 2/2 update 825/1250 KD=1.767385
+epoch 2/2 update 850/1250 KD=1.682151
+epoch 2/2 update 875/1250 KD=1.675388
+epoch 2/2 update 900/1250 KD=1.712979
+epoch 2/2 update 925/1250 KD=1.691747
+epoch 2/2 update 950/1250 KD=1.670417
+epoch 2/2 update 975/1250 KD=1.722665
+epoch 2/2 update 1000/1250 KD=1.636263
+epoch 2/2 update 1025/1250 KD=1.691686
+epoch 2/2 update 1050/1250 KD=1.743671
+epoch 2/2 update 1075/1250 KD=1.718804
+epoch 2/2 update 1100/1250 KD=1.767530
+epoch 2/2 update 1125/1250 KD=1.683946
+epoch 2/2 update 1150/1250 KD=1.738464
+epoch 2/2 update 1175/1250 KD=1.735816
+epoch 2/2 update 1200/1250 KD=1.674679
+epoch 2/2 update 1225/1250 KD=1.642360
+epoch 2/2 update 1250/1250 KD=1.741647
+Epoch 2 KD=1.701332 validation NLL=2.224624
+[TRAIN COMPLETE] results/gemma/defense/seed_42/raw_soft/shadows/shadow_05/adapter
+Validation NLL: 2.5603187922459023 -> 2.2246242944455616
+
+$ /home/joseph-janicki-sl/Projects/Data anon/MIA_Project/mialab/bin/python src/gemma/score_defense_student.py --adapter results/gemma/defense/seed_42/raw_soft/shadows/shadow_05/adapter --output-dir results/gemma/defense/seed_42/raw_soft/shadows/shadow_05 --members data/gemma/shadows/shadow_05/members.jsonl --nonmembers data/gemma/shadows/shadow_05/nonmembers.jsonl
+========================================================================
+GEMMA DEFENSE STUDENT MEMBERSHIP SCORING
+========================================================================
+
+Adapter: results/gemma/defense/seed_42/raw_soft/shadows/shadow_05/adapter
+Members: data/gemma/shadows/shadow_05/members.jsonl
+Nonmembers: data/gemma/shadows/shadow_05/nonmembers.jsonl
+
+Frozen attack population:
+Members: 5000
+Nonmembers: 5000
+Total: 10000
+
+Loading fresh Gemma base in BF16...
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 16892.00it/s]
+Loading defended student adapter...
+
+Scoring...
+Scored 4/10000
+Scored 500/10000
+Scored 1000/10000
+Scored 1500/10000
+Scored 2000/10000
+Scored 2500/10000
+Scored 3000/10000
+Scored 3500/10000
+Scored 4000/10000
+Scored 4500/10000
+Scored 5000/10000
+Scored 5500/10000
+Scored 6000/10000
+Scored 6500/10000
+Scored 7000/10000
+Scored 7500/10000
+Scored 8000/10000
+Scored 8500/10000
+Scored 9000/10000
+Scored 9500/10000
+Scored 10000/10000
+
+=== RAW-SOFT STUDENT DIRECT MIA ===
+-NLL                  : AUC = 0.519778
+-Perplexity           : AUC = 0.519778
+Median token loss     : AUC = 0.515358
+Min token loss        : AUC = 0.500346
+Max token loss        : AUC = 0.518587
+Std token loss        : AUC = 0.524153
+Min-K 10%             : AUC = 0.522537
+Min-K 20%             : AUC = 0.522095
+Min-K 30%             : AUC = 0.521773
+Min-K 40%             : AUC = 0.521373
+
+=== NLL GROUP STATISTICS ===
+Members     : mean=2.198612, median=2.207498
+Nonmembers  : mean=2.229253, median=2.241556
+
+========================================================================
+DEFENSE STUDENT SCORING COMPLETE
+========================================================================
+
+Saved:
+  results/gemma/defense/seed_42/raw_soft/shadows/shadow_05/membership_scores.csv
+  results/gemma/defense/seed_42/raw_soft/shadows/shadow_05/membership_auc.csv
+
+============================================================================
+RAW-SOFT ADAPTIVE SHADOW PIPELINE COMPLETE
+============================================================================
+Total: 60000
+Members: 30000
+Nonmembers: 30000
+Saved: results/gemma/defense/seed_42/raw_soft/shadows/all_shadow_membership_scores.csv

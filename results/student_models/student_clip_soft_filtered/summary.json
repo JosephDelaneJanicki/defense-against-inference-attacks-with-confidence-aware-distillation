@@ -1,0 +1,15 @@
+{
+    "variant_name": "student_clip_soft_filtered",
+    "label_mode": "clip_soft",
+    "label_type": "soft",
+    "feature_mode": "filtered",
+    "input_dim": 107,
+    "num_train_samples": 7485,
+    "best_epoch": 3,
+    "train_acc": 0.6211088844355377,
+    "val_acc": 0.8254638515674984,
+    "test_acc": 0.8200429931415703,
+    "train_f1": 0.5578422201434362,
+    "val_f1": 0.6421825813221406,
+    "test_f1": 0.6207937877480587
+}

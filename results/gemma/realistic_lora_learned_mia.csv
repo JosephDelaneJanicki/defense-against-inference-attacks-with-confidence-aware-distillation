@@ -1,0 +1,3 @@
+target,attack_model,accuracy,precision,recall,f1,auc
+realistic_lora,logistic_regression,0.5324,0.5333333333333333,0.5184,0.5257606490872211,0.54701248
+realistic_lora,random_forest,0.5304,0.5262249827467219,0.61,0.5650240829937013,0.54142096

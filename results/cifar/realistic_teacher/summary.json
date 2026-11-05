@@ -1,0 +1,11 @@
+{
+    "model": "cifar_realistic_teacher",
+    "train_size": 45000,
+    "best_epoch": 48,
+    "train_acc": 0.9546444444444444,
+    "val_acc": 0.8988,
+    "test_acc": 0.8966,
+    "train_f1": 0.9543194444643144,
+    "val_f1": 0.8991491343870608,
+    "test_f1": 0.8960569821908564
+}

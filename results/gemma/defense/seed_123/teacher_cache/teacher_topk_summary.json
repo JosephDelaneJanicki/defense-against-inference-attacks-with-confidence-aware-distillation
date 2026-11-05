@@ -1,0 +1,36 @@
+{
+  "experiment": "gemma_shadow_teacher_topk_cache",
+  "base_model": "google/gemma-3-4b-pt",
+  "teacher_adapter": "/home/joseph-janicki-sl/Projects/Data anon/MIA_Project/results/gemma/multiseed/seed_123/realistic_lora/adapter",
+  "corpus": "/home/joseph-janicki-sl/Projects/Data anon/MIA_Project/data/gemma/members.jsonl",
+  "num_sequences": 5000,
+  "max_length": 256,
+  "top_k": 64,
+  "total_prediction_tokens": 1274993,
+  "teacher_confidence": {
+    "mean": 0.5316969752311707,
+    "std": 0.30957579612731934,
+    "percentiles": {
+      "p50": 0.47625845670700073,
+      "p75": 0.838783860206604,
+      "p90": 0.9941706657409668,
+      "p95": 0.9993135929107666,
+      "p99": 0.999977171421051
+    },
+    "fraction_above_threshold": {
+      "0.85": 0.2433880029145258,
+      "0.95": 0.17215702360718843
+    }
+  },
+  "topk_probability_mass": {
+    "mean": 0.9329019784927368,
+    "std": 0.10968387126922607,
+    "percentiles": {
+      "p50": 0.9839651584625244,
+      "p75": 0.9988619685173035,
+      "p90": 0.9999809265136719,
+      "p95": 0.9999980330467224,
+      "p99": 1.0
+    }
+  }
+}

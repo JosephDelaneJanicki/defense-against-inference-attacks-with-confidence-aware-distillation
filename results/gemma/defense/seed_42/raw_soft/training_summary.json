@@ -1,0 +1,40 @@
+{
+  "experiment": "gemma_seed42_raw_soft_distilled_lora",
+  "defense_variant": "raw_soft",
+  "base_model": "google/gemma-3-4b-pt",
+  "teacher_cache": "data/gemma/defense/seed_42/teacher_topk/teacher_topk_cache.pt",
+  "teacher_top_k": 64,
+  "teacher_representation": "Exact cached Top-K mass plus one residual other-vocabulary bucket",
+  "temperature": 1.0,
+  "hard_label_loss": false,
+  "confidence_clipping": null,
+  "confidence_filtering": null,
+  "student_lora": {
+    "r": 8,
+    "alpha": 16,
+    "dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ]
+  },
+  "training": {
+    "seed": 42,
+    "epochs": 2,
+    "learning_rate": 0.0002,
+    "batch_size": 1,
+    "gradient_accumulation": 8,
+    "effective_batch_size": 8,
+    "optimizer": "AdamW",
+    "train_sequences": 5000,
+    "validation_sequences": 1000
+  },
+  "initial_validation_nll": 2.5811315153234147,
+  "final_validation_nll": 2.2465181510177312,
+  "mean_training_kd_loss": 1.7132193077325821,
+  "training_seconds": 1998.30779671669,
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "peak_allocated_gb": 9.03014326095581
+}
